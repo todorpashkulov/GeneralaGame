@@ -2,7 +2,7 @@
   <artifact type="jar" name="GaneralaGame:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/GaneralaGame_jar</output-path>
     <root id="archive" name="GaneralaGame.jar">
-      <element id="module-output" name="GaneralaGame" />
+      <element id="module-output" name="GeneralaGame" />
     </root>
   </artifact>
 </component>
