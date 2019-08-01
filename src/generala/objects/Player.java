@@ -11,7 +11,7 @@ public class Player {
     private EnumSet<CombinationEnum> rolledCombinations = EnumSet.noneOf(CombinationEnum.class);
     private int score;
 
-    public Player() {
+    private Player() {
     }
 
     public Player(String name) {
