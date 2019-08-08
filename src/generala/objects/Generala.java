@@ -1,18 +1,24 @@
 package generala.objects;
 
-import generala.CombinationEnum;
-import generala.Main;
+import generala.GeneralaUtils;
+import generala.enums.CombinationEnum;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 public final class Generala {
+
     private static Generala instance;
-    private int playerCount=3;
-    private int roundCount=5;
+    private int playerCount = 5;
+    private int roundCount = 3;
+
+    private final int PAIR_MULTIPLIER = 2;
+    private final int TRIPLE_MULTIPLIER = 3;
+    private final int FOUR_MULTIPLIER = 4;
 
     private Generala() {
+
     }
 
     public static Generala getInstance() {
@@ -24,235 +30,354 @@ public final class Generala {
         return instance;
     }
 
-    public void playGenerala() {
-        loadProperties();
-        List<Player> players = new ArrayList<>();
-        CombinationEnum currentCombo = null;
 
-        for (int i = 0; i < playerCount; i++) {
-            players.add(new Player("Player " + (i + 1)));
-        }
-
-        for (int i = 0; i < roundCount; i++) {
-            int oldScore;
-            System.out.println("<-------------------------------------------------->");
-            System.out.println();
-            System.out.println(">>>Round " + (i + 1));
-            for (Player player : players) {
-                System.out.println();
-                System.out.println(">" + player.getName());
-                System.out.println("Current Score: " + player.getScore());
-                oldScore = player.getScore();
-                player.setDiceRoll(getInstance().generateDiceRoll());
-                System.out.print("Dice roll: " + player.getDiceRoll());
-                currentCombo = getInstance().addScore(player);
-
-                if (currentCombo == null) {
-                    System.out.println("-> Nothing");
-                } else {
-                    System.out.println("-> " + currentCombo.toString() + " (" + (player.getScore() - oldScore) + ")");
-                }
-                System.out.println("New Score: " + player.getScore());
-                if (currentCombo != null && currentCombo.equals(CombinationEnum.GENERALA)) {
-                    System.out.println("GENERALA SCORED " + player.getName() + " WINS !!!");
-                    System.out.println("GAME IS ENDING!!!!");
-                    printScore(players, player.getName());
-                    return;
-                }
-            }
-        }
-        printScore(players, null);
-    }
-
-    private void loadProperties() {
-
-        try (InputStream input = Main.class.getClassLoader().getResourceAsStream("generala.properties")) {
-            Properties properties = new Properties();
-            properties.load(input);
-
-            playerCount = Integer.valueOf(properties.getProperty("players"));
-            roundCount = Integer.valueOf(properties.getProperty("rounds"));
+    public Map<CombinationEnum, Integer> findCombos(Player player) {
+        Map<CombinationEnum, Integer> comboMap = new TreeMap<>(Collections.reverseOrder());
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Map<Integer, Integer> dieSideDuplicatesMap = player
+                .getDiceRollObj()
+                .getDieSideDuplicatesMap();
+               /* .entrySet()
+                .stream()
+                .sorted(Map.Entry.<Integer, Integer>comparingByValue().reversed())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));*/
+        // System.out.println(dieSideDuplicatesMap);
+        int currentSide;
+        int[] straightCounter = {0, 0};
 
 
-    }
+        for (Map.Entry<Integer, Integer> dieSideEntry : dieSideDuplicatesMap.entrySet()) {
+            currentSide = dieSideEntry.getKey();
 
-    private String generateDiceRoll() {
-        final int NUMBER_OF_DIE = 5;
-        StringBuilder diceRoll = new StringBuilder(NUMBER_OF_DIE);
-        Random random = new Random();
-        for (int i = 0; i < NUMBER_OF_DIE; i++) {
-            if (i > 0) {
-                diceRoll.append(",");
-            }
-            diceRoll.append(random.nextInt(6) + 1);
-
-        }
-
-
-        return diceRoll.toString();
-    }
-
-    private Map<CombinationEnum, Integer> countCombos(Player player) {
-        Map<CombinationEnum, Integer> comboMap = new LinkedHashMap<>();
-        Set<Integer> searchedValues = removeDuplicates(player.getDiceRoll());
-        List<String> roll = splitRollToList(player);
-
-        for (Integer num : searchedValues) {
-            int duplicateCount = findDuplicates(roll, num);
-
-            if (duplicateCount >= 2 && duplicateCount <= 5) {
-                switch (duplicateCount) {
-
-
-                    case 2:
-                        if (comboMap.containsKey(CombinationEnum.PAIR)) {
-                            comboMap.put(CombinationEnum.DOUBLE_PAIR, comboMap.get(CombinationEnum.PAIR) + num * 2);
-                        } else if (comboMap.containsKey(CombinationEnum.TRIPLE)) {
-                            comboMap.put(CombinationEnum.FULL_HOUSE,
-                                    comboMap.get(CombinationEnum.TRIPLE) + num * 2);
-                        }
-                        comboMap.put(CombinationEnum.PAIR, num * 2);
-
-                        break;
-                    case 3:
-                        if (comboMap.containsKey(CombinationEnum.PAIR)) {
-                            comboMap.put(CombinationEnum.FULL_HOUSE,
-                                    comboMap.get(CombinationEnum.PAIR) + num * 3);
-                        }
-                        comboMap.put(CombinationEnum.TRIPLE, num * 3);
-                        break;
-                    case 4:
-                        comboMap.put(CombinationEnum.FOUR_OF_A_KIND, num * 4);
-                        break;
-                    case 5:
-                        comboMap.put(CombinationEnum.GENERALA, num * 5);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            //for finding straight
-            if (findStraight(roll)) {
-                comboMap.put(CombinationEnum.STRAIGHT, findTypeOfStraight(Integer.valueOf(roll.get(0))));
+            if (addGeneralaIfPossible(currentSide, dieSideEntry.getValue(), comboMap)
+                    || comboMap.size() == (CombinationEnum.values().length - 1)
+                    || player.getRolledCombinations().size() == CombinationEnum.values().length - 1) {
+                break;
             }
 
 
-        }
+            if (dieSideEntry.getValue() >= 4) {
 
+                addFourOfAKindIfPossible(currentSide, comboMap);
+            }
+            if (dieSideEntry.getValue() >= 3) {
+                addTripleIfPossible(currentSide, comboMap);
+            }
+            if (dieSideEntry.getValue() >= 2) {
+                addPairIfPossible(currentSide, comboMap);
+                addDoublePairIfPossible(currentSide, comboMap);
+                addFullHouseIfPossible(currentSide, comboMap);
+            }
+
+            if (!comboMap.containsKey(CombinationEnum.STRAIGHT)) {
+                straightCounter = addStraightIfPossible(currentSide, straightCounter, comboMap);
+            }
+        }
+//todo:remove
+        //System.out.println(comboMap);
 
         return comboMap;
     }
 
-    private CombinationEnum addScore(Player player) {
-        Map<CombinationEnum, Integer> comboMap = countCombos(player);
-        int finalComboConstScore = 0;
-        int finalComboValue = 0;
-        CombinationEnum combo = null;
+    @SuppressWarnings("Duplicates")
+    private void addFullHouseIfPossible(int dieSide, Map<CombinationEnum, Integer> comboMap) {
+        int tripleValue;
+        int pairValue = comboMap.get(CombinationEnum.PAIR) / PAIR_MULTIPLIER;
+        int biggestPair;
+        int currentFullHouseValue;
+        boolean hasFullHouse = comboMap.containsKey(CombinationEnum.FULL_HOUSE);
+        int comboMapFullHouse = 0;
 
-        for (Map.Entry<CombinationEnum, Integer> entry : comboMap.entrySet()) {
 
-            if (!player.getRolledCombinations().contains(entry.getKey())
-                    && finalComboConstScore < entry.getValue()) {
-                finalComboConstScore = entry.getKey().getScoreConst();
-                finalComboValue = entry.getValue();
-                combo = entry.getKey();
+       /* if (calledFrom == CombinationEnum.TRIPLE) {
+            if (comboMap.containsKey(CombinationEnum.PAIR)) {
+                pairComboMapValue = comboMap.get(CombinationEnum.PAIR) / PAIR_MULTIPLIER;
             }
-        }
-        if (finalComboConstScore != 0) {
-            player.setScore(player.getScore() +
-                    finalComboConstScore + finalComboValue);
-            player.getRolledCombinations().add(combo);
-            return combo;
-        }
-        return null;
-    }
+            if (pairComboMapValue != dieSide) {
+                currentFullHouseValue=(tripleComboMapValue* TRIPLE_MULTIPLIER)+(dieSide* PAIR_MULTIPLIER);
+                if(comboMap.containsKey(CombinationEnum.FULL_HOUSE )&&
+                        comboMap.get(CombinationEnum.FULL_HOUSE)<currentFullHouseValue){
+
+                }
+                comboMap.put(CombinationEnum.FULL_HOUSE,
+                        (dieSide* TRIPLE_MULTIPLIER)+(pairComboMapValue* PAIR_MULTIPLIER));
+            }
 
 
-    private void printScore(List<Player> players, String winnerName) {
-        Iterator<Player> playerIterator = players.listIterator();
-        Player currentPlayer = null;
-        int lastPlayerScore = 0;
-        int positionIndex = 0;
+        } else if (calledFrom == CombinationEnum.PAIR) {*/
+        /*if (comboMap.containsKey(CombinationEnum.TRIPLE)) {
 
-        System.out.println();
-        System.out.println("SCORES!!!!");
-        if (winnerName != null) {
-            while (playerIterator.hasNext()) {
-                currentPlayer = playerIterator.next();
+            tripleComboMapValue = comboMap.get(CombinationEnum.TRIPLE) / TRIPLE_MULTIPLIER;
+            pairComboMapValue=comboMap.get(CombinationEnum.PAIR)/PAIR_MULTIPLIER;
 
-                if (currentPlayer.getName().equals(winnerName)) {
-                    System.out.println("GENERALA " + winnerName + " GENERALA");
-                    System.out.println("SCORE: " + currentPlayer.getScore());
-                    playerIterator.remove();
-                    break;
+            if (dieSide != pairComboMapValue) {
+                if(pairComboMapValue>dieSide){
+                    currentFullHouseValue = (tripleComboMapValue * TRIPLE_MULTIPLIER) + (pairComboMapValue * PAIR_MULTIPLIER);
+                }else {
+                    currentFullHouseValue = (tripleComboMapValue * TRIPLE_MULTIPLIER) + (dieSide * PAIR_MULTIPLIER);
+                }
+                hasFullHouse = comboMap.containsKey(CombinationEnum.FULL_HOUSE);
+                if (hasFullHouse &&
+                        comboMap.get(CombinationEnum.FULL_HOUSE) < currentFullHouseValue) {
+                    comboMap.put(CombinationEnum.FULL_HOUSE, currentFullHouseValue);
+
+                } else if (!hasFullHouse) {
+                    comboMap.put(CombinationEnum.FULL_HOUSE,currentFullHouseValue );
                 }
             }
-            players.sort(Comparator.comparing(Player::getScore).reversed());
-            players.add(0, currentPlayer);
+        }*/
+        if (comboMap.containsKey(CombinationEnum.TRIPLE)
+                && (tripleValue = comboMap.get(CombinationEnum.TRIPLE) / TRIPLE_MULTIPLIER) != dieSide) {
+            if (pairValue > dieSide && pairValue != tripleValue) {
+                biggestPair = pairValue;
+            } else {
+                biggestPair = dieSide;
+            }
+            currentFullHouseValue = biggestPair * PAIR_MULTIPLIER + tripleValue * TRIPLE_MULTIPLIER;
+            if (hasFullHouse) {
+                comboMapFullHouse = comboMap.get(CombinationEnum.FULL_HOUSE);
+            }
+            if (currentFullHouseValue > comboMapFullHouse) {
+                comboMap.put(CombinationEnum.FULL_HOUSE, currentFullHouseValue);
+            }
+
+
+        }
+
+    }
+
+    private boolean addGeneralaIfPossible(int dieSide, int dieSideDuplicates, Map<CombinationEnum, Integer> comboMap) {
+        if (dieSideDuplicates != DiceRoll.getNumberOfDice()) {
+            return false;
+        }
+        comboMap.put(CombinationEnum.GENERALA, dieSide * DiceRoll.getNumberOfDice());
+        return true;
+    }
+
+    private void addFourOfAKindIfPossible(int dieSide, Map<CombinationEnum, Integer> comboMap) {
+        if (!comboMap.containsKey(CombinationEnum.FOUR_OF_A_KIND)) {
+            comboMap.put(CombinationEnum.FOUR_OF_A_KIND, dieSide * FOUR_MULTIPLIER);
+        } else if (dieSide > comboMap.get(CombinationEnum.FOUR_OF_A_KIND) / FOUR_MULTIPLIER) {
+            comboMap.put(CombinationEnum.FOUR_OF_A_KIND, dieSide * FOUR_MULTIPLIER);
+        }
+
+    }
+
+    private void addTripleIfPossible(int dieSide, Map<CombinationEnum, Integer> comboMap) {
+
+        if (!comboMap.containsKey(CombinationEnum.TRIPLE)) {
+            comboMap.put(CombinationEnum.TRIPLE, dieSide * TRIPLE_MULTIPLIER);
+        } else if (dieSide > comboMap.get(CombinationEnum.TRIPLE) / TRIPLE_MULTIPLIER) {
+            comboMap.put(CombinationEnum.TRIPLE, dieSide * TRIPLE_MULTIPLIER);
+        }
+
+
+    }
+
+    private void addPairIfPossible(int dieSide, Map<CombinationEnum, Integer> comboMap) {
+
+        if (!comboMap.containsKey(CombinationEnum.PAIR)) {
+            comboMap.put(CombinationEnum.PAIR, dieSide * PAIR_MULTIPLIER);
+        } else if (dieSide > comboMap.get(CombinationEnum.PAIR) / PAIR_MULTIPLIER) {
+            comboMap.put(CombinationEnum.PAIR, dieSide * PAIR_MULTIPLIER);
+        }
+
+    }
+
+    private void addDoublePairIfPossible(int dieSide, Map<CombinationEnum, Integer> comboMap) {
+        int doublePairComboMapValue = 0;
+        int pairComboMapValue = 0;
+        if (comboMap.containsKey(CombinationEnum.DOUBLE_PAIR)) {
+
+            doublePairComboMapValue = comboMap.get(CombinationEnum.DOUBLE_PAIR) / PAIR_MULTIPLIER;
+        }
+
+        if (comboMap.containsKey(CombinationEnum.PAIR)
+                && comboMap.get(CombinationEnum.PAIR) / PAIR_MULTIPLIER != dieSide) {
+
+            pairComboMapValue = comboMap.get(CombinationEnum.PAIR) / PAIR_MULTIPLIER;
+
+            if (pairComboMapValue + dieSide > doublePairComboMapValue) {
+
+                comboMap.put(CombinationEnum.DOUBLE_PAIR, (pairComboMapValue + dieSide) * PAIR_MULTIPLIER);
+            }
+        }
+
+    }
+
+    private int[] addStraightIfPossible(int currentDieSide
+            , int[] counter
+            , Map<CombinationEnum, Integer> comboMap) {
+        //Counter array size of 2: element 0=counter element 1= side for calculating straight score
+
+
+        if (counter[0] == 0) {
+            counter[0] += 1;
+            counter[1] = currentDieSide;
+            return counter;
+        }
+        if (currentDieSide == counter[1] - counter[0]) {
+            counter[0] += 1;
         } else {
-            players.sort(Comparator.comparing(Player::getScore).reversed());
+            counter[0] = 0;
         }
-        for (Player player : players) {
-            currentPlayer = player;
 
-            if (currentPlayer.getScore() != lastPlayerScore) {
-                positionIndex++;
+
+        if (counter[0] == DiceRoll.getStraightSize()) {
+            comboMap.put(CombinationEnum.STRAIGHT, countStraight(counter[1]));
+        }
+
+        return counter;
+    }
+
+    private int countStraight(int dieSide) {
+        int sum = 0;
+        for (int i = dieSide, counter = 0; counter < DiceRoll.getStraightSize(); i--, counter++) {
+            sum += i;
+        }
+
+        return sum;
+
+    }
+
+    public int getPlayerCount() {
+        return playerCount;
+    }
+
+    public void setPlayerCount(int playerCount) {
+        this.playerCount = playerCount;
+    }
+
+    public int getRoundCount() {
+        return roundCount;
+    }
+
+    public void setRoundCount(int roundCount) {
+        this.roundCount = roundCount;
+    }
+
+    public CombinationEnum addScore(Player player) {
+        EnumSet<CombinationEnum> playerRolledCombos = player.getRolledCombinations();
+        int biggestScore = 0;
+        CombinationEnum finalCombo = null;
+
+        Map<CombinationEnum, Integer> comboMap = findCombos(player);
+        //TODO:REMOVE
+        // System.out.println(comboMap);
+
+        for (Map.Entry<CombinationEnum, Integer> comboMapEntrySet : comboMap.entrySet()) {
+            if (comboMapEntrySet.getKey().equals(CombinationEnum.GENERALA)) {
+                biggestScore = comboMapEntrySet.getValue() + CombinationEnum.GENERALA.getScoreConst();
+                finalCombo = CombinationEnum.GENERALA;
+                break;
+            }
+            if (playerRolledCombos.contains(comboMapEntrySet.getKey())) {
+                continue;
+            }
+            int tempScore = comboMapEntrySet.getValue() + comboMapEntrySet.getKey().getScoreConst();
+            if (tempScore > biggestScore) {
+                biggestScore = tempScore;
+                finalCombo = comboMapEntrySet.getKey();
+            }
+        }
+        if (finalCombo != null) {
+            playerRolledCombos.add(finalCombo);
+        }
+        player.setRolledCombinations(playerRolledCombos);
+        player.setScore(player.getScore() + biggestScore);
+
+        return finalCombo;
+
+    }
+
+    public void playGenerala() {
+        GeneralaUtils.loadProperties();
+        List<Player> players = GeneralaUtils.generatePlayerList(playerCount);
+
+        for (int i = 0; i < roundCount; i++) {
+            GeneralaUtils.updatePlayerRandom(players);
+            if (printRoundStopIfGenerala(players, i + 1)) {
+                return;
+            }
+        }
+        printNormalWin(players, false);
+
+    }
+
+    private void printGeneralaWin(Player player, List<Player> playerList) {
+        playerList.remove(player);
+
+        System.out.println("WINNER IS ");
+        System.out.println("GENERALA!!!! " + player.getName() + " GENERALA!!!!");
+        System.out.println("WITH SCORE OF: " + player.getScore());
+        System.out.println("CONGRATS");
+        System.out.println();
+
+        printNormalWin(playerList, true);
+
+
+    }
+
+    private void printNormalWin(List<Player> playerList, boolean hasGenerala) {
+        playerList.sort(Comparator.comparing(Player::getScore).reversed());
+        System.out.println();
+        System.out.println("<-------------------------------------------------------->");
+        System.out.println();
+        System.out.println("FINAL SCORES");
+
+        for (int i = 0, positionCounter = hasGenerala ? 2 : 1; i < playerList.size(); i++, positionCounter++) {
+            Player player = playerList.get(i);
+
+            System.out.println(positionCounter + ". " + player.getName() + " Score: " + player.getScore());
+
+
+        }
+
+
+    }
+
+    private boolean printRoundStopIfGenerala(List<Player> players, int currentRound) {
+        CombinationEnum currentCombo;
+        Player currentPlayer;
+        Iterator<Player> playerIterator = players.iterator();
+
+        System.out.println("<-------------------------------------------------->");
+        System.out.println();
+        System.out.println(">>>Round " + currentRound);
+        while (playerIterator.hasNext()) {
+            currentPlayer = playerIterator.next();
+            int oldScore;
+            System.out.println();
+            System.out.println(">" + currentPlayer.getName());
+            System.out.println("Current Score: " + currentPlayer.getScore());
+            oldScore = currentPlayer.getScore();
+
+            //ADDING SCORE
+            currentCombo = addScore(currentPlayer);
+
+            System.out.print("Dice roll: " + currentPlayer.getDiceRollObj().getDiceRollString());
+            //TODO:REMOVE
+            //System.out.println(currentPlayer.getDiceRollObj().getDieSideDuplicatesMap());
+
+            System.out.print(currentCombo == null ?
+                    " -> No Combos"
+                    :
+                    " -> " + currentCombo.getLabel() + " ( " + (currentPlayer.getScore() - oldScore) + " )");
+
+            System.out.println();
+            System.out.println("New Score: " + currentPlayer.getScore());
+            System.out.println();
+
+
+            if (currentCombo != null && currentCombo.equals(CombinationEnum.GENERALA)) {
+                printGeneralaWin(currentPlayer, players);
+                return true;
             }
 
-            System.out.println((positionIndex) + ". " + currentPlayer.getName() + " -> Score: " + currentPlayer.getScore());
-            lastPlayerScore = currentPlayer.getScore();
         }
-
+        return false;
     }
 
-    private boolean findStraight(List<String> roll) {
-        int counter = 0;
 
-        for (int i = 0; i < roll.size() - 1; i++) {
-            if (Integer.valueOf(roll.get(i)).equals(Integer.valueOf(roll.get(i + 1)) - 1)) {
-                counter++;
-            }
-        }
-        return counter == (roll.size() - 1);
-    }
-
-    private int findTypeOfStraight(int firstNum) {
-        if (firstNum == 1) {
-            return 15;
-        } else
-            return 20;
-    }
-
-    private Set<Integer> removeDuplicates(String s) {
-        Set<Integer> integerSet = new TreeSet<>();
-        String[] strings = s.split(",");
-        for (String string : strings) {
-            integerSet.add(Integer.valueOf(string));
-        }
-
-
-        return integerSet;
-
-    }
-
-    private int findDuplicates(List<String> roll, Integer searchedNum) {
-        int duplicateCount = 0;
-        for (String s : roll) {
-            if (searchedNum.intValue() == Integer.valueOf(s)) {
-                duplicateCount++;
-            }
-        }
-        return duplicateCount;
-    }
-
-    private List<String> splitRollToList(Player player) {
-        List<String> roll = new ArrayList<>(Arrays.asList(player.getDiceRoll().split(",")));
-        Collections.sort(roll);
-        return roll;
-    }
 }
