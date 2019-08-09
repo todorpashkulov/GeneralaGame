@@ -8,8 +8,10 @@ public class Main {
 
 
     public static void main(String[] args) {
-      Generala ganerala = Generala.getInstance();
-    /*     GeneralaUtils.loadProperties();
+        Generala ganerala = Generala.getInstance();
+        ganerala.playGenerala();
+
+          /*  GeneralaUtils.loadProperties();
         DiceRoll diceRoll=new DiceRoll(5,6);
         diceRoll.getDieSideDuplicatesMap().put(6,1);
         diceRoll.getDieSideDuplicatesMap().put(5,1);
@@ -21,16 +23,7 @@ public class Main {
         System.out.println(diceRoll.getDieSideDuplicatesMap());
         Player player=new Player("1");
         player.setDiceRollObj(diceRoll);
-       ganerala.countScore(player);*/
-
-
-            ganerala.playGenerala();
-
-
-
-
-
-
+        ganerala.countScore(player);*/
 
 
     }

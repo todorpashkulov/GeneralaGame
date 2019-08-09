@@ -66,12 +66,12 @@ public final class GeneralaUtils {
 
 
         for (int i = 0; i < playerCount; i++) {
-            players.add(new Player("Player " + i));
+            players.add(new Player("Player " + (i + 1)));
         }
 
         return players;
     }
-
+//todo fix name
     public static void updatePlayerRandom(List<Player> players) {
         for (Player p : players) {
             generateDiceRoll(p);

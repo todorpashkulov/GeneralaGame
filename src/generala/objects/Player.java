@@ -9,9 +9,9 @@ public class Player {
     private String name;
     private DiceRoll diceRollObj = new DiceRoll();
     private EnumSet<CombinationEnum> rolledCombinations = EnumSet.noneOf(CombinationEnum.class);
-    private int score;
+    private int score=0;
 
-    private Player() {
+    public Player() {
     }
 
     public Player(String name) {
