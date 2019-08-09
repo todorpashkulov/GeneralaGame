@@ -6,7 +6,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        Generala ganerala = Generala.getInstance();
+        Generala ganerala =new Generala();
         ganerala.playGenerala();
 
 

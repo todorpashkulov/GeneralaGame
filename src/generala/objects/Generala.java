@@ -1,33 +1,23 @@
 package generala.objects;
 
 import generala.GeneralaUtils;
+import generala.Main;
 import generala.enums.CombinationEnum;
+import generala.utils.Printer;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
+
+import static generala.utils.Constants.*;
 
 
 public final class Generala {
 
-    private static Generala instance;
     private int playerCount = 5;
     private int roundCount = 3;
 
-    private final int PAIR_MULTIPLIER = 2;
-    private final int TRIPLE_MULTIPLIER = 3;
-    private final int FOUR_MULTIPLIER = 4;
-
-    private Generala() {
-
-    }
-
-    public static Generala getInstance() {
-
-        if (instance == null) {
-            instance = new Generala();
-        }
-
-        return instance;
-    }
+    private Printer printer = new Printer();
 
 
     public int getPlayerCount() {
@@ -44,6 +34,26 @@ public final class Generala {
 
     public void setRoundCount(int roundCount) {
         this.roundCount = roundCount;
+    }
+
+
+    public void loadProperties() {
+
+        try (InputStream input = Main.class.getClassLoader().getResourceAsStream("generala.properties")) {
+            Properties properties = new Properties();
+            properties.load(input);
+
+            playerCount = Integer.valueOf(properties.getProperty("players"));
+            roundCount = Integer.valueOf(properties.getProperty("rounds"));
+            DiceRoll.setNumberOfDice(Integer.valueOf(properties.getProperty("numberOfDice")));
+            DiceRoll.setNumberOfDiceSides(Integer.valueOf(properties.getProperty("numberOfDiceSides")));
+            DiceRoll.setStraightSize(Integer.valueOf(properties.getProperty("straightSize")));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 
@@ -125,102 +135,35 @@ public final class Generala {
     }
 
     public void playGenerala() {
-        GeneralaUtils.loadProperties();
+        loadProperties();
         List<Player> players = GeneralaUtils.generatePlayerList(playerCount);
         CombinationEnum currentCombo;
         int oldPlayerScore;
 
         for (int i = 0; i < roundCount; i++) {
             GeneralaUtils.updatePlayerRandom(players);
-            printRoundBanner(i + 1);
+            printer.printRoundBanner(i + 1);
 
             for (Player p : players) {
                 oldPlayerScore = p.getScore();
                 //ADDING SCORE
                 currentCombo = addScore(p);
 
-                printRound(p, oldPlayerScore, currentCombo);
+                printer.printRound(p, oldPlayerScore, currentCombo);
 
                 if (currentCombo != null && currentCombo.equals(CombinationEnum.GENERALA)) {
-                    printGeneralaWin(p, players);
+                    printer.printGeneralaWin(p, players);
                     return;
                 }
             }
         }
-        printNormalWin(players, false);
+        printer.printNormalWin(players, false);
 
     }
 
 
     //PRINT METHODS
 
-    private void printRoundBanner(int currentRound) {
-        System.out.println("<-------------------------------------------------->");
-        System.out.println();
-        System.out.println(">>>Round " + currentRound);
-        System.out.println();
-
-    }
-
-    private void printGeneralaWin(Player player, List<Player> playerList) {
-        playerList.remove(player);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println("WINNER IS ");
-        System.out.println("GENERALA!!!! " + player.getName() + " GENERALA!!!!");
-        System.out.println("WITH SCORE OF: " + player.getScore());
-        System.out.println("CONGRATS");
-        System.out.println();
-
-        printNormalWin(playerList, true);
-
-
-    }
-
-    private void printNormalWin(List<Player> playerList, boolean hasGenerala) {
-        playerList.sort(Comparator.comparing(Player::getScore).reversed());
-        Player lastPlayer = playerList.get(0);
-        System.out.println();
-        System.out.println("<-------------------------------------------------------->");
-        System.out.println();
-        System.out.println("FINAL SCORES");
-
-
-        for (int i = 0, positionCounter = hasGenerala ? 2 : 1; i < playerList.size(); i++) {
-            Player player = playerList.get(i);
-
-            if (lastPlayer.getScore() != player.getScore()) {
-                positionCounter++;
-            }
-
-            System.out.println(positionCounter + ". " + player.getName() + " Score: " + player.getScore());
-
-
-            lastPlayer = player;
-
-
-        }
-
-
-    }
-
-    private void printRound(Player player, int oldScore, CombinationEnum currentCombo) {
-
-        System.out.println(">" + player.getName());
-        System.out.println("Current Score: " + oldScore);
-        System.out.print("Dice roll: " + player.getDiceRollObj().getDiceRollString());
-        //TODO:REMOVE
-        //System.out.println(currentPlayer.getDiceRollObj().getDieSideDuplicatesMap());
-        System.out.print(currentCombo == null
-                ? " -> No Combos"
-                : " -> " + currentCombo.getLabel() + " ( " + (player.getScore() - oldScore) + " )");
-        System.out.println();
-        System.out.println("New Score: " + player.getScore());
-        System.out.println();
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-        System.out.println();
-
-
-    }
 
     //COMBINATION FINDER METHODS
 

@@ -18,24 +18,7 @@ public final class GeneralaUtils {
     private GeneralaUtils() {
     }
 
-    public static void loadProperties() {
 
-        try (InputStream input = Main.class.getClassLoader().getResourceAsStream("generala.properties")) {
-            Properties properties = new Properties();
-            properties.load(input);
-
-            Generala.getInstance().setPlayerCount(Integer.valueOf(properties.getProperty("players")));
-            Generala.getInstance().setRoundCount(Integer.valueOf(properties.getProperty("rounds")));
-            DiceRoll.setNumberOfDice(Integer.valueOf(properties.getProperty("numberOfDice")));
-            DiceRoll.setNumberOfDiceSides(Integer.valueOf(properties.getProperty("numberOfDiceSides")));
-            DiceRoll.setStraightSize(Integer.valueOf(properties.getProperty("straightSize")));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
     public static void generateDiceRoll(Player player) {
         DiceRoll diceRoll = player.getDiceRollObj();
