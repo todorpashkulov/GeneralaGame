@@ -30,9 +30,6 @@ public final class Generala {
     }
 
 
-
-
-
     public int getPlayerCount() {
         return playerCount;
     }
