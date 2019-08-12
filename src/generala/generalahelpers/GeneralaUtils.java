@@ -51,7 +51,7 @@ public final class GeneralaUtils {
         return players;
     }
 
-    //todo fix name
+
     public static void generateRandomDiceRollForEachPlayer(List<Player> players) {
         for (Player p : players) {
             generateRandomDiceRoll(p);

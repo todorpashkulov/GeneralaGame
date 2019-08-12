@@ -10,16 +10,23 @@ import static generala.generalahelpers.Constants.*;
 
 public final class Combinations {
 
-    public void addFullHouseIfPossible(int dieSide, Map<CombinationEnum, Integer> comboMap) {
+
+    public boolean canAddFullHouse(int dieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
+        return combinationTreeMap.containsKey(CombinationEnum.TRIPLE)
+                && (combinationTreeMap.get(CombinationEnum.TRIPLE) / TRIPLE_MULTIPLIER) != dieSide;
+    }
+
+    public void addFullHouse(int dieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
         int tripleValue;
-        int pairValue = comboMap.get(CombinationEnum.PAIR) / PAIR_MULTIPLIER;
+        int pairValue = combinationTreeMap.get(CombinationEnum.PAIR) / PAIR_MULTIPLIER;
         int biggestPair;
         int currentFullHouseValue;
-        boolean hasFullHouse = comboMap.containsKey(CombinationEnum.FULL_HOUSE);
+        boolean hasFullHouse = combinationTreeMap.containsKey(CombinationEnum.FULL_HOUSE);
         int comboMapFullHouse = 0;
 
-        if (comboMap.containsKey(CombinationEnum.TRIPLE)
-                && (tripleValue = comboMap.get(CombinationEnum.TRIPLE) / TRIPLE_MULTIPLIER) != dieSide) {
+        if (canAddFullHouse(dieSide, combinationTreeMap)) {
+            tripleValue = combinationTreeMap.get(CombinationEnum.TRIPLE) / TRIPLE_MULTIPLIER;
+
             if (pairValue > dieSide && pairValue != tripleValue) {
                 biggestPair = pairValue;
             } else {
@@ -28,25 +35,28 @@ public final class Combinations {
             currentFullHouseValue = biggestPair * PAIR_MULTIPLIER + tripleValue * TRIPLE_MULTIPLIER;
 
             if (hasFullHouse) {
-                comboMapFullHouse = comboMap.get(CombinationEnum.FULL_HOUSE);
+                comboMapFullHouse = combinationTreeMap.get(CombinationEnum.FULL_HOUSE);
             }
             if (currentFullHouseValue > comboMapFullHouse) {
-                comboMap.put(CombinationEnum.FULL_HOUSE, currentFullHouseValue);
+                combinationTreeMap.put(CombinationEnum.FULL_HOUSE, currentFullHouseValue);
             }
-
-
         }
+
+
     }
 
-    public boolean addGeneralaIfPossible(int dieSide, int dieSideDuplicates, Map<CombinationEnum, Integer> comboMap) {
-        if (dieSideDuplicates != DiceRoll.getNumberOfDice()) {
-            return false;
-        }
-        comboMap.put(CombinationEnum.GENERALA, dieSide * DiceRoll.getNumberOfDice());
-        return true;
+    public boolean hasGenerala(int dieSideDuplicates) {
+        return dieSideDuplicates == DiceRoll.getNumberOfDice();
     }
 
-    public void addFourOfAKindIfPossible(int dieSide, Map<CombinationEnum, Integer> comboMap) {
+    public void addGenerala(int dieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
+
+
+        combinationTreeMap.put(CombinationEnum.GENERALA, dieSide * DiceRoll.getNumberOfDice());
+
+    }
+
+    public void addFourOfAKind(int dieSide, Map<CombinationEnum, Integer> comboMap) {
         if (!comboMap.containsKey(CombinationEnum.FOUR_OF_A_KIND)) {
             comboMap.put(CombinationEnum.FOUR_OF_A_KIND, dieSide * FOUR_MULTIPLIER);
         } else if (dieSide > comboMap.get(CombinationEnum.FOUR_OF_A_KIND) / FOUR_MULTIPLIER) {
@@ -55,51 +65,62 @@ public final class Combinations {
 
     }
 
-    public void addTripleIfPossible(int dieSide, Map<CombinationEnum, Integer> comboMap) {
+    public void addTriple(int dieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
 
-        if (!comboMap.containsKey(CombinationEnum.TRIPLE)) {
-            comboMap.put(CombinationEnum.TRIPLE, dieSide * TRIPLE_MULTIPLIER);
-        } else if (dieSide > comboMap.get(CombinationEnum.TRIPLE) / TRIPLE_MULTIPLIER) {
-            comboMap.put(CombinationEnum.TRIPLE, dieSide * TRIPLE_MULTIPLIER);
+        if (!combinationTreeMap.containsKey(CombinationEnum.TRIPLE)) {
+            combinationTreeMap.put(CombinationEnum.TRIPLE, dieSide * TRIPLE_MULTIPLIER);
+        } else if (dieSide > combinationTreeMap.get(CombinationEnum.TRIPLE) / TRIPLE_MULTIPLIER) {
+            combinationTreeMap.put(CombinationEnum.TRIPLE, dieSide * TRIPLE_MULTIPLIER);
         }
 
 
     }
 
-    public void addPairIfPossible(int dieSide, Map<CombinationEnum, Integer> comboMap) {
+    public void addPair(int dieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
 
-        if (!comboMap.containsKey(CombinationEnum.PAIR)) {
-            comboMap.put(CombinationEnum.PAIR, dieSide * PAIR_MULTIPLIER);
-        } else if (dieSide > comboMap.get(CombinationEnum.PAIR) / PAIR_MULTIPLIER) {
-            comboMap.put(CombinationEnum.PAIR, dieSide * PAIR_MULTIPLIER);
+        if (!combinationTreeMap.containsKey(CombinationEnum.PAIR)) {
+            combinationTreeMap.put(CombinationEnum.PAIR, dieSide * PAIR_MULTIPLIER);
+        } else if (dieSide > combinationTreeMap.get(CombinationEnum.PAIR) / PAIR_MULTIPLIER) {
+            combinationTreeMap.put(CombinationEnum.PAIR, dieSide * PAIR_MULTIPLIER);
         }
 
     }
 
-    public void addDoublePairIfPossible(int dieSide, Map<CombinationEnum, Integer> comboMap) {
+    private boolean canAddDoublePair(int dieSide, boolean containsPair, int pairValue) {
+        return containsPair
+                && pairValue / PAIR_MULTIPLIER != dieSide;
+    }
+
+    public void addDoublePair(int dieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
         int doublePairComboMapValue = 0;
-        int pairComboMapValue = 0;
-        if (comboMap.containsKey(CombinationEnum.DOUBLE_PAIR)) {
+        int pairComboMapValue;
 
-            doublePairComboMapValue = comboMap.get(CombinationEnum.DOUBLE_PAIR) / PAIR_MULTIPLIER;
-        }
+        if (canAddDoublePair(dieSide
+                , combinationTreeMap.containsKey(CombinationEnum.PAIR)
+                , combinationTreeMap.get(CombinationEnum.PAIR))) {
 
-        if (comboMap.containsKey(CombinationEnum.PAIR)
-                && comboMap.get(CombinationEnum.PAIR) / PAIR_MULTIPLIER != dieSide) {
+            pairComboMapValue = combinationTreeMap.get(CombinationEnum.PAIR) / PAIR_MULTIPLIER;
 
-            pairComboMapValue = comboMap.get(CombinationEnum.PAIR) / PAIR_MULTIPLIER;
+            if (combinationTreeMap.containsKey(CombinationEnum.DOUBLE_PAIR)) {
+
+                doublePairComboMapValue = combinationTreeMap.get(CombinationEnum.DOUBLE_PAIR) / PAIR_MULTIPLIER;
+            }
 
             if (pairComboMapValue + dieSide > doublePairComboMapValue) {
 
-                comboMap.put(CombinationEnum.DOUBLE_PAIR, (pairComboMapValue + dieSide) * PAIR_MULTIPLIER);
+                combinationTreeMap.put(CombinationEnum.DOUBLE_PAIR, (pairComboMapValue + dieSide) * PAIR_MULTIPLIER);
             }
         }
 
     }
 
+    public boolean canAddStraight(Map<CombinationEnum, Integer> combinationTreeMap) {
+        return combinationTreeMap.containsKey(CombinationEnum.STRAIGHT);
+    }
+
     public int[] addStraightIfPossible(int currentDieSide
             , int[] counter
-            , Map<CombinationEnum, Integer> comboMap) {
+            , Map<CombinationEnum, Integer> combinationTreeMap) {
         //Counter array size of 2: element 0=counter element 1= side for calculating straight score
 
 
@@ -116,7 +137,7 @@ public final class Combinations {
 
 
         if (counter[0] == DiceRoll.getStraightSize()) {
-            comboMap.put(CombinationEnum.STRAIGHT, countStraight(counter[1]));
+            combinationTreeMap.put(CombinationEnum.STRAIGHT, countStraight(counter[1]));
         }
 
         return counter;
@@ -131,7 +152,6 @@ public final class Combinations {
         return sum;
 
     }
-
 
 
 }

@@ -64,7 +64,7 @@ public final class GeneralaPrinter {
         System.out.println("Current Score: " + oldScore);
         System.out.print("Dice roll: " + player.getDiceRollObj().getDiceRollString());
         //TODO:REMOVE
-        //System.out.println(currentPlayer.getDiceRollObj().getDieSideDuplicatesMap());
+        System.out.println(player.getDiceRollObj().getDieSideDuplicatesMap());
         System.out.print(currentCombo == null
                 ? " -> No Combos"
                 : " -> " + currentCombo.getLabel() + " ( " + (player.getScore() - oldScore) + " )");

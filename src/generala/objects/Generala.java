@@ -1,10 +1,10 @@
 package generala.objects;
 
-import generala.generalahelpers.GeneralaUtils;
 import generala.Main;
 import generala.enums.CombinationEnum;
 import generala.generalahelpers.Combinations;
 import generala.generalahelpers.GeneralaPrinter;
+import generala.generalahelpers.GeneralaUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +17,7 @@ public final class Generala {
     private int roundCount = 3;
 
     private GeneralaPrinter generalaPrinter = new GeneralaPrinter();
-    private Combinations combinations=new Combinations();
+    private Combinations combinations = new Combinations();
 
 
     public int getPlayerCount() {
@@ -37,7 +37,7 @@ public final class Generala {
     }
 
 
-    public void loadProperties() {
+    public void loadPropertiesFile() {
 
         try (InputStream input = Main.class.getClassLoader().getResourceAsStream("generala.properties")) {
             Properties properties = new Properties();
@@ -56,8 +56,8 @@ public final class Generala {
 
     }
 
-    private Map<CombinationEnum, Integer> findCombos(Player player) {
-        Map<CombinationEnum, Integer> comboMap = new TreeMap<>(Collections.reverseOrder());
+    private Map<CombinationEnum, Integer> findCombinationsInPlayerDiceRoll(Player player) {
+        Map<CombinationEnum, Integer> combinationTreeMap = new TreeMap<>(Collections.reverseOrder());
 
         Map<Integer, Integer> dieSideDuplicatesMap = player
                 .getDiceRollObj()
@@ -70,40 +70,44 @@ public final class Generala {
         for (Map.Entry<Integer, Integer> dieSideEntry : dieSideDuplicatesMap.entrySet()) {
             currentSide = dieSideEntry.getKey();
 
-            if (combinations.addGeneralaIfPossible(currentSide, dieSideEntry.getValue(), comboMap)
-                    || comboMap.size() == (CombinationEnum.values().length - 1)
-                    || player.getRolledCombinations().size() == CombinationEnum.values().length - 1) {
+            if (combinations.hasGenerala(dieSideEntry.getValue())) {
+                combinations.addGenerala(currentSide, combinationTreeMap);
+                break;
+            }
+
+            if (hasAllCombinations(player.getRolledCombinations().size(), combinationTreeMap.size())) {
                 break;
             }
 
             if (dieSideEntry.getValue() >= 4) {
 
-                combinations.addFourOfAKindIfPossible(currentSide, comboMap);
+                combinations.addFourOfAKind(currentSide, combinationTreeMap);
             }
             if (dieSideEntry.getValue() >= 3) {
-                combinations.addTripleIfPossible(currentSide, comboMap);
+                combinations.addTriple(currentSide, combinationTreeMap);
             }
             if (dieSideEntry.getValue() >= 2) {
-                combinations.addPairIfPossible(currentSide, comboMap);
-                combinations.addDoublePairIfPossible(currentSide, comboMap);
-                combinations.addFullHouseIfPossible(currentSide, comboMap);
+                combinations.addPair(currentSide, combinationTreeMap);
+                combinations.addDoublePair(currentSide, combinationTreeMap);
+                combinations.addFullHouse(currentSide, combinationTreeMap);
+
             }
 
-            if (!comboMap.containsKey(CombinationEnum.STRAIGHT)) {
-                straightCounter = combinations.addStraightIfPossible(currentSide, straightCounter, comboMap);
+            if (!combinations.canAddStraight(combinationTreeMap)) {
+                straightCounter = combinations.addStraightIfPossible(currentSide, straightCounter, combinationTreeMap);
             }
         }
 //todo:remove
-        //System.out.println(comboMap);
+        System.out.println(combinationTreeMap);
 
-        return comboMap;
+        return combinationTreeMap;
     }
 
-    private CombinationEnum addScore(Player player) {
+    private CombinationEnum addScoreToPlayers(Player player) {
         EnumSet<CombinationEnum> playerRolledCombos = player.getRolledCombinations();
         int biggestScore = 0;
         CombinationEnum finalCombo = null;
-        Map<CombinationEnum, Integer> comboMap = findCombos(player);
+        Map<CombinationEnum, Integer> comboMap = findCombinationsInPlayerDiceRoll(player);
 
         //TODO:REMOVE
         // System.out.println(comboMap);
@@ -134,7 +138,7 @@ public final class Generala {
     }
 
     public void playGenerala() {
-        loadProperties();
+        loadPropertiesFile();
         List<Player> players = GeneralaUtils.generatePlayerList(playerCount);
         CombinationEnum currentCombo;
         int oldPlayerScore;
@@ -146,7 +150,7 @@ public final class Generala {
             for (Player p : players) {
                 oldPlayerScore = p.getScore();
                 //ADDING SCORE
-                currentCombo = addScore(p);
+                currentCombo = addScoreToPlayers(p);
 
                 generalaPrinter.printRound(p, oldPlayerScore, currentCombo);
 
@@ -160,9 +164,11 @@ public final class Generala {
 
     }
 
+    private boolean hasAllCombinations(int playerRolledCombinationCount, int combinationTreeMapSize) {
 
-
-
+        return combinationTreeMapSize == (CombinationEnum.values().length - 1)
+                || playerRolledCombinationCount == CombinationEnum.values().length - 1;
+    }
 
 
 }
