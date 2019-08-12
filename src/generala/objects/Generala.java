@@ -60,7 +60,7 @@ public final class Generala {
         Map<CombinationEnum, Integer> combinationTreeMap = new TreeMap<>(Collections.reverseOrder());
 
         Map<Integer, Integer> dieSideDuplicatesMap = player
-                .getDiceRollObj()
+                .getDiceRoll()
                 .getDieSideDuplicatesMap();
 
         int currentSide;
@@ -97,7 +97,7 @@ public final class Generala {
                 straightCounter = combinations.addStraightIfPossible(currentSide, straightCounter, combinationTreeMap);
             }
         }
-//todo:remove
+        //todo:remove
         System.out.println(combinationTreeMap);
 
         return combinationTreeMap;

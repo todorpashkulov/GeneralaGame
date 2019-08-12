@@ -17,7 +17,7 @@ public final class GeneralaUtils {
 
 
     public static void generateRandomDiceRoll(Player player) {
-        DiceRoll diceRoll = player.getDiceRollObj();
+        DiceRoll diceRoll = player.getDiceRoll();
         diceRoll.getDieSideDuplicatesMap().clear();
 
         int numberOfDice = DiceRoll.getNumberOfDice();
@@ -50,7 +50,6 @@ public final class GeneralaUtils {
 
         return players;
     }
-
 
     public static void generateRandomDiceRollForEachPlayer(List<Player> players) {
         for (Player p : players) {

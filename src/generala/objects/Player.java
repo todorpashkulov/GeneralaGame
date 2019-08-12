@@ -7,7 +7,7 @@ import java.util.EnumSet;
 
 public class Player {
     private String name;
-    private DiceRoll diceRollObj = new DiceRoll();
+    private DiceRoll diceRoll = new DiceRoll();
     private EnumSet<CombinationEnum> rolledCombinations = EnumSet.noneOf(CombinationEnum.class);
     private int score = 0;
 
@@ -43,11 +43,11 @@ public class Player {
         this.name = name;
     }
 
-    public DiceRoll getDiceRollObj() {
-        return diceRollObj;
+    public DiceRoll getDiceRoll() {
+        return diceRoll;
     }
 
-    public void setDiceRollObj(DiceRoll diceRollObj) {
-        this.diceRollObj = diceRollObj;
+    public void setDiceRoll(DiceRoll diceRoll) {
+        this.diceRoll = diceRoll;
     }
 }
