@@ -1,4 +1,4 @@
-package generala.utils;
+package generala.generalahelpers;
 
 public final class Constants {
     private Constants() {

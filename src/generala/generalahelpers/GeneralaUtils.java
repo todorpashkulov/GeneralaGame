@@ -1,15 +1,11 @@
-package generala;
+package generala.generalahelpers;
 
 import generala.objects.DiceRoll;
-import generala.objects.Generala;
 import generala.objects.Player;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class GeneralaUtils {
@@ -20,7 +16,7 @@ public final class GeneralaUtils {
 
 
 
-    public static void generateDiceRoll(Player player) {
+    public static void generateRandomDiceRoll(Player player) {
         DiceRoll diceRoll = player.getDiceRollObj();
         diceRoll.getDieSideDuplicatesMap().clear();
 
@@ -37,7 +33,7 @@ public final class GeneralaUtils {
             //Making string
             diceRollString.append(tempRandomNum);
             //Filling DiceRoll EnumMap
-            addToDiceRollMap(diceRoll, tempRandomNum);
+            addSideToDiceRollDuplicatesMap(diceRoll, tempRandomNum);
 
         }
 
@@ -56,13 +52,13 @@ public final class GeneralaUtils {
     }
 
     //todo fix name
-    public static void updatePlayerRandom(List<Player> players) {
+    public static void generateRandomDiceRollForEachPlayer(List<Player> players) {
         for (Player p : players) {
-            generateDiceRoll(p);
+            generateRandomDiceRoll(p);
         }
     }
 
-    private static void addToDiceRollMap(DiceRoll diceRoll, int value) {
+    private static void addSideToDiceRollDuplicatesMap(DiceRoll diceRoll, int value) {
         Map<Integer, Integer> dieSideDuplicatesMap = diceRoll.getDieSideDuplicatesMap();
         if (dieSideDuplicatesMap.containsKey(value)) {
             dieSideDuplicatesMap.put(value, dieSideDuplicatesMap.get(value) + 1);

@@ -1,4 +1,4 @@
-package generala.utils;
+package generala.generalahelpers;
 
 import generala.enums.CombinationEnum;
 import generala.objects.Player;
@@ -6,7 +6,7 @@ import generala.objects.Player;
 import java.util.Comparator;
 import java.util.List;
 
-public final class Printer {
+public final class GeneralaPrinter {
 
 
     public void printRoundBanner(int currentRound) {
