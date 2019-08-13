@@ -1,13 +1,11 @@
-package generala.generalahelpers;
+package generala.objects;
 
 import generala.enums.CombinationEnum;
-import generala.objects.Player;
 
 import java.util.Comparator;
 import java.util.List;
 
 public final class GeneralaPrinter {
-
 
     public void printRoundBanner(int currentRound) {
         System.out.println("<-------------------------------------------------->");
@@ -28,7 +26,6 @@ public final class GeneralaPrinter {
 
         printNormalWin(playerList, true);
 
-
     }
 
     public void printNormalWin(List<Player> playerList, boolean hasGenerala) {
@@ -39,7 +36,6 @@ public final class GeneralaPrinter {
         System.out.println();
         System.out.println("FINAL SCORES");
 
-
         for (int i = 0, positionCounter = hasGenerala ? 2 : 1; i < playerList.size(); i++) {
             Player player = playerList.get(i);
 
@@ -49,12 +45,9 @@ public final class GeneralaPrinter {
 
             System.out.println(positionCounter + ". " + player.getName() + " Score: " + player.getScore());
 
-
             lastPlayer = player;
 
-
         }
-
 
     }
 
@@ -62,18 +55,19 @@ public final class GeneralaPrinter {
 
         System.out.println(">" + player.getName());
         System.out.println("Current Score: " + oldScore);
-        System.out.print("Dice roll: " + player.getDiceRoll().getDiceRollString());
+        System.out.print(player.getDiceRoll());
+
         //TODO:REMOVE
-        System.out.println(player.getDiceRoll().getDieSideDuplicatesMap());
-        System.out.print(currentCombo == null
-                ? " -> No Combos"
-                : " -> " + currentCombo.getLabel() + " ( " + (player.getScore() - oldScore) + " )");
+        System.out.println(player.getDiceRoll().getNumberOfSideDuplicatesTreeMap());
+
+        System.out.print(currentCombo == null ?
+                " -> No Combos" :
+                " -> " + currentCombo.getLabel() + " ( " + (player.getScore() - oldScore) + " )");
         System.out.println();
         System.out.println("New Score: " + player.getScore());
         System.out.println();
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         System.out.println();
-
 
     }
 

@@ -1,6 +1,5 @@
 package generala.objects;
 
-
 import generala.enums.CombinationEnum;
 
 import java.util.EnumSet;
@@ -17,7 +16,6 @@ public class Player {
     public Player(String name) {
         this.name = name;
     }
-
 
     public EnumSet<CombinationEnum> getRolledCombinations() {
         return rolledCombinations;

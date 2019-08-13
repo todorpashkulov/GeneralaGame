@@ -1,4 +1,4 @@
-package generala.generalahelpers;
+package generala.generalautils;
 
 import generala.objects.DiceRoll;
 import generala.objects.Player;
@@ -10,16 +10,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public final class GeneralaUtils {
 
-
     private GeneralaUtils() {
     }
 
-
-
     public static void generateRandomDiceRoll(Player player) {
         DiceRoll diceRoll = player.getDiceRoll();
-        diceRoll.getDieSideDuplicatesMap().clear();
-
+        diceRoll.getNumberOfSideDuplicatesTreeMap().clear();
         int numberOfDice = DiceRoll.getNumberOfDice();
         int numberOfDiceSides = DiceRoll.getNumberOfDiceSides();
         StringBuilder diceRollString = new StringBuilder(numberOfDice);
@@ -37,12 +33,11 @@ public final class GeneralaUtils {
 
         }
 
-        diceRoll.setDiceRollString(diceRollString.toString());
+        diceRoll.setDiceRoll(diceRollString.toString());
     }
 
     public static List<Player> generatePlayerList(int playerCount) {
         List<Player> players = new ArrayList<>();
-
 
         for (int i = 0; i < playerCount; i++) {
             players.add(new Player("Player " + (i + 1)));
@@ -58,14 +53,13 @@ public final class GeneralaUtils {
     }
 
     private static void addSideToDiceRollDuplicatesMap(DiceRoll diceRoll, int value) {
-        Map<Integer, Integer> dieSideDuplicatesMap = diceRoll.getDieSideDuplicatesMap();
+        Map<Integer, Integer> dieSideDuplicatesMap = diceRoll.getNumberOfSideDuplicatesTreeMap();
         if (dieSideDuplicatesMap.containsKey(value)) {
             dieSideDuplicatesMap.put(value, dieSideDuplicatesMap.get(value) + 1);
         } else {
             dieSideDuplicatesMap.put(value, 1);
         }
     }
-
 
 }
 

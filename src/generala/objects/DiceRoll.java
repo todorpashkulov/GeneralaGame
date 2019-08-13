@@ -5,14 +5,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class DiceRoll {
-    //todo fix final
-    private static int numberOfDice = 5;
-    private static int numberOfDiceSides = 6;
-    private static int straightSize = 5;
-    //todo toString change name
-    private String diceRollString;
-    //todo fix name
-    private Map<Integer, Integer> dieSideDuplicatesMap = new TreeMap<>(Comparator.reverseOrder());
+    //cant be final TODO: ask
+    private static int numberOfDice;
+    private static int numberOfDiceSides;
+    private String diceRoll;
+    private Map<Integer, Integer> numberOfSideDuplicatesTreeMap = new TreeMap<>(Comparator.reverseOrder());
 
     public DiceRoll() {
     }
@@ -33,27 +30,16 @@ public class DiceRoll {
         DiceRoll.numberOfDiceSides = numberOfDiceSides;
     }
 
-    public static int getStraightSize() {
-        return straightSize;
+    public void setDiceRoll(String diceRoll) {
+        this.diceRoll = diceRoll;
     }
 
-    public static void setStraightSize(int straightSize) {
-        DiceRoll.straightSize = straightSize;
+    public Map<Integer, Integer> getNumberOfSideDuplicatesTreeMap() {
+        return numberOfSideDuplicatesTreeMap;
     }
 
-    public String getDiceRollString() {
-        return diceRollString;
-    }
-
-    public void setDiceRollString(String diceRollString) {
-        this.diceRollString = diceRollString;
-    }
-
-    public Map<Integer, Integer> getDieSideDuplicatesMap() {
-        return dieSideDuplicatesMap;
-    }
-
-    public void setDieSideDuplicatesMap(Map<Integer, Integer> dieSideDuplicatesMap) {
-        this.dieSideDuplicatesMap = dieSideDuplicatesMap;
+    @Override
+    public String toString() {
+        return "Dice roll: " + diceRoll;
     }
 }
