@@ -1,4 +1,4 @@
-package generala.generalautils;
+package generala.utils;
 
 import generala.objects.DiceRoll;
 import generala.objects.Player;
@@ -15,7 +15,7 @@ public final class GeneralaUtils {
 
     public static void generateRandomDiceRoll(Player player) {
         DiceRoll diceRoll = player.getDiceRoll();
-        diceRoll.getNumberOfSideDuplicatesTreeMap().clear();
+        diceRoll.getEachSideDuplicatesTreeMapReversed().clear();
         int numberOfDice = DiceRoll.getNumberOfDice();
         int numberOfDiceSides = DiceRoll.getNumberOfDiceSides();
         StringBuilder diceRollString = new StringBuilder(numberOfDice);
@@ -29,7 +29,7 @@ public final class GeneralaUtils {
             //Making string
             diceRollString.append(tempRandomNum);
             //Filling DiceRoll EnumMap
-            addSideToDiceRollDuplicatesMap(diceRoll, tempRandomNum);
+            addCurrentSideToDiceRollMapWithDuplicates(diceRoll, tempRandomNum);
 
         }
 
@@ -52,8 +52,8 @@ public final class GeneralaUtils {
         }
     }
 
-    private static void addSideToDiceRollDuplicatesMap(DiceRoll diceRoll, int value) {
-        Map<Integer, Integer> dieSideDuplicatesMap = diceRoll.getNumberOfSideDuplicatesTreeMap();
+    private static void addCurrentSideToDiceRollMapWithDuplicates(DiceRoll diceRoll, int value) {
+        Map<Integer, Integer> dieSideDuplicatesMap = diceRoll.getEachSideDuplicatesTreeMapReversed();
         if (dieSideDuplicatesMap.containsKey(value)) {
             dieSideDuplicatesMap.put(value, dieSideDuplicatesMap.get(value) + 1);
         } else {

@@ -9,7 +9,7 @@ public class DiceRoll {
     private static int numberOfDice;
     private static int numberOfDiceSides;
     private String diceRoll;
-    private Map<Integer, Integer> numberOfSideDuplicatesTreeMap = new TreeMap<>(Comparator.reverseOrder());
+    private Map<Integer, Integer> eachSideDuplicatesTreeMapReversed = new TreeMap<>(Comparator.reverseOrder());
 
     public DiceRoll() {
     }
@@ -34,8 +34,8 @@ public class DiceRoll {
         this.diceRoll = diceRoll;
     }
 
-    public Map<Integer, Integer> getNumberOfSideDuplicatesTreeMap() {
-        return numberOfSideDuplicatesTreeMap;
+    public Map<Integer, Integer> getEachSideDuplicatesTreeMapReversed() {
+        return eachSideDuplicatesTreeMapReversed;
     }
 
     @Override

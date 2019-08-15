@@ -1,4 +1,4 @@
-package generala;
+package generala.application;
 
 import generala.objects.Generala;
 
