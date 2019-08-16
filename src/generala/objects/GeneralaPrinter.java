@@ -7,7 +7,7 @@ import java.util.List;
 
 public final class GeneralaPrinter {
 
-    public void printRoundBanner(int currentRound) {
+    public void printRoundSeparator(int currentRound) {
         System.out.println("<-------------------------------------------------->");
         System.out.println();
         System.out.println(">>>Round " + currentRound);
@@ -46,7 +46,6 @@ public final class GeneralaPrinter {
         System.out.println(">" + player.getName());
         System.out.println("Current Score: " + oldScore);
         System.out.print(player.getDiceRoll());
-
         //TODO:REMOVE
         System.out.println(player.getDiceRoll().getEachSideDuplicatesTreeMapReversed());
 

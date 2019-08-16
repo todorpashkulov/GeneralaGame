@@ -7,9 +7,9 @@ import generala.utils.GeneralaUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
-
-
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 public final class Generala {
 
@@ -21,19 +21,18 @@ public final class Generala {
     public void playGenerala() {
         loadPropertiesFile();
         List<Player> players = GeneralaUtils.generatePlayerList(playerCount);
-        CombinationEnum currentCombo;
+        CombinationEnum currentPlayerBiggestCombination;
         int oldPlayerScore;
 
         for (int i = 0; i < roundCount; i++) {
             GeneralaUtils.generateRandomDiceRollForEachPlayer(players);
-            generalaPrinter.printRoundBanner(i + 1);
-
+            generalaPrinter.printRoundSeparator(i + 1);
             for (Player p : players) {
                 oldPlayerScore = p.getScore();
-                //ADDING SCORE
-                currentCombo = addScoreToPlayers(p);
-                generalaPrinter.printRound(p, oldPlayerScore, currentCombo);
-                if (currentCombo != null && currentCombo.equals(CombinationEnum.GENERALA)) {
+                currentPlayerBiggestCombination = addScoreToPlayer(p);
+                generalaPrinter.printRound(p, oldPlayerScore, currentPlayerBiggestCombination);
+                if (currentPlayerBiggestCombination != null
+                        && currentPlayerBiggestCombination.equals(CombinationEnum.GENERALA)) {
                     generalaPrinter.printGeneralaWin(p, players);
                     return;
                 }
@@ -43,36 +42,29 @@ public final class Generala {
 
     }
 
-    private CombinationEnum addScoreToPlayers(Player player) {
-        EnumSet<CombinationEnum> playerRolledCombos = player.getRolledCombinations();
-        int biggestScore = 0;
-        CombinationEnum finalCombo = null;
-        Map<CombinationEnum, Integer> comboMap = combinationFinder.findCombinationsInPlayerDiceRoll(player);
-        //TODO:REMOVE
-        //System.out.println(comboMap);
-        for (Map.Entry<CombinationEnum, Integer> comboMapEntrySet : comboMap.entrySet()) {
-            if (comboMapEntrySet.getKey().equals(CombinationEnum.GENERALA)) {
-                biggestScore = comboMapEntrySet.getValue() + CombinationEnum.GENERALA.getScoreConst();
-                finalCombo = CombinationEnum.GENERALA;
+    private CombinationEnum addScoreToPlayer(Player player) {
+        Map<CombinationEnum, Integer> combinationTreeMap = combinationFinder
+                .findCombinationsInPlayerDiceRoll(player);
+        CombinationEnum biggestCombination = null;
+        int biggestCombinationValue = 0;
+
+        //todo:Remove(only for Test)
+        System.out.println(combinationTreeMap);
+        for (Map.Entry<CombinationEnum, Integer> currentCombinationMapEntry : combinationTreeMap.entrySet()) {
+            if (currentCombinationMapEntry.getKey().equals(CombinationEnum.GENERALA)) {
+                biggestCombination = CombinationEnum.GENERALA;
+                biggestCombinationValue = currentCombinationMapEntry.getValue();
                 break;
-            }
-            if (playerRolledCombos.contains(comboMapEntrySet.getKey())) {
-                continue;
-            }
-            int tempScore = comboMapEntrySet.getValue() + comboMapEntrySet.getKey().getScoreConst();
-            if (tempScore > biggestScore) {
-                biggestScore = tempScore;
-                finalCombo = comboMapEntrySet.getKey();
+            } else if (currentCombinationMapEntry.getValue() > biggestCombinationValue) {
+                biggestCombination = currentCombinationMapEntry.getKey();
+                biggestCombinationValue = currentCombinationMapEntry.getValue();
             }
         }
-        if (finalCombo != null) {
-            playerRolledCombos.add(finalCombo);
+        if (biggestCombination != null) {
+            player.getRolledCombinations().add(biggestCombination);
+            player.addScore(biggestCombinationValue);
         }
-        player.setRolledCombinations(playerRolledCombos);
-        player.setScore(player.getScore() + biggestScore);
-
-        return finalCombo;
-
+        return biggestCombination;
     }
 
     private void loadPropertiesFile() {
@@ -88,3 +80,33 @@ public final class Generala {
         }
     }
 }
+   /* private CombinationEnum addScoreToPlayers(Player player) {
+        EnumSet<CombinationEnum> playerRolledCombos = player.getRolledCombinations();
+        int biggestScore = 0;
+        CombinationEnum finalCombo = null;
+        Map<CombinationEnum, Integer> comboMap = combinationFinder.findCombinationsInPlayerDiceRoll(player);
+
+        for (Map.Entry<CombinationEnum, Integer> comboMapEntrySet : comboMap.entrySet()) {
+            if (comboMapEntrySet.getKey().equals(CombinationEnum.GENERALA)) {
+                biggestScore = comboMapEntrySet.getValue();
+                finalCombo = CombinationEnum.GENERALA;
+                break;
+            }
+            if (playerRolledCombos.contains(comboMapEntrySet.getKey())) {
+                continue;
+            }
+            int tempScore = comboMapEntrySet.getValue();
+            if (tempScore > biggestScore) {
+                biggestScore = tempScore;
+                finalCombo = comboMapEntrySet.getKey();
+            }
+        }
+        if (finalCombo != null) {
+            playerRolledCombos.add(finalCombo);
+        }
+        player.setRolledCombinations(playerRolledCombos);
+        player.setScore(player.getScore() + biggestScore);
+
+        return finalCombo;
+
+    }*/

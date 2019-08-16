@@ -5,187 +5,126 @@ import generala.objects.DiceRoll;
 import generala.objects.Player;
 
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Map;
 import java.util.TreeMap;
 
 import static generala.constants.GeneralaConstants.*;
 
+//TODO: After you are done rename variables and methods
 public final class CombinationFinder {
     private int straightCounter;
     private int dieSideForCalculatingStraightPoints;
-
     private int biggestFourOfAKind;
     private int biggestTriple;
     private int biggestPair;
     private int secondBiggestPair;
 
-
+    //PUBLIC METHODS
     public Map<CombinationEnum, Integer> findCombinationsInPlayerDiceRoll(Player player) {
-        int currentSide;
+        int currentSideKey;
         int currentSideValue;
         Map<CombinationEnum, Integer> combinationTreeMapReversed = new TreeMap<>(Collections.reverseOrder());
-        Map<Integer, Integer> eachSideDuplicates = player.getDiceRoll().getEachSideDuplicatesTreeMapReversed();
-        for (Map.Entry<Integer, Integer> currentDieSideEntrySet : eachSideDuplicates.entrySet()) {
-            currentSide = currentDieSideEntrySet.getKey();
+        Map<Integer, Integer> eachSideDuplicatesMap = player.getDiceRoll().getEachSideDuplicatesTreeMapReversed();
+        for (Map.Entry<Integer, Integer> currentDieSideEntrySet : eachSideDuplicatesMap.entrySet()) {
+            currentSideKey = currentDieSideEntrySet.getKey();
             currentSideValue = currentDieSideEntrySet.getValue();
-            if (hasGenerala(currentDieSideEntrySet.getValue())) {
-                addGenerala(currentSide, combinationTreeMapReversed);
+            if (hasGenerala(currentSideValue)) {
+                addGenerala(currentSideKey, combinationTreeMapReversed);
+                return combinationTreeMapReversed;
+            }
+            if (canBreakEarly(player.getRolledCombinations().size(), combinationTreeMapReversed.size())) {
                 break;
             }
-            if (hasAllCombinations(player.getRolledCombinations().size(), combinationTreeMapReversed.size())) {
-                break;
-            }
-            //todo: ask for hasMethods and ask if u should make variables to save in the CombinationFinder.class
-           if (currentDieSideEntrySet.getValue() >= FOUR_OF_A_KIND_SIZE) {
-                addFourOfAKind(currentSide, combinationTreeMapReversed);
-            }
-            if (currentDieSideEntrySet.getValue() >= TRIPLE_SIZE) {
-                addTriple(currentSide, combinationTreeMapReversed);
-            }
-            if (currentDieSideEntrySet.getValue() >= PAIR_SIZE) {
-                addPair(currentSide, combinationTreeMapReversed);
-                addDoublePair(currentSide, combinationTreeMapReversed);
-                addFullHouse(currentSide, combinationTreeMapReversed);
-            }
-
-
-
-
-            if (!canAddStraight(combinationTreeMapReversed)) {
-                addStraight(currentSide, combinationTreeMapReversed);
+            //TODO:ask for this comparing parameter
+            if (currentSideValue >= PAIR_SIZE) {
+                findNonCompoundCombinations(currentSideKey, currentSideValue);
             }
         }
-        //todo:Remove(only for Test)
-        System.out.println(combinationTreeMapReversed);
+        findStraight(eachSideDuplicatesMap);
+        callAddMethods(player, combinationTreeMapReversed);
+        resetInstanceVariables();
         return combinationTreeMapReversed;
     }
 
+    //HELPER METHODS
+    private void findNonCompoundCombinations(int currentDieSide, int currentDieSideValue) {
 
-    private boolean canAddFullHouse(int currentDieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
-        return combinationTreeMap.containsKey(CombinationEnum.TRIPLE)
-                && (combinationTreeMap.get(CombinationEnum.TRIPLE) / TRIPLE_SIZE) != currentDieSide;
+
+        if (currentDieSideValue >= FOUR_OF_A_KIND_SIZE) {
+            if (!hasBiggestFourOfAKind()) {
+                setBiggestFourOfAKind(currentDieSide);
+            }
+        }
+        if (currentDieSideValue >= TRIPLE_SIZE) {
+            if (!hasBiggestTriple()) {
+                setBiggestTriple(currentDieSide);
+            }
+        }
+        if (currentDieSideValue >= PAIR_SIZE) {
+            if (!hasBiggestPair()) {
+                setBiggestPair(currentDieSide);
+            } else if (!hasSecondBiggestPair()) {
+                setSecondBiggestPair(currentDieSide);
+            }
+        }
     }
 
-    public void addFullHouse(int currentDieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
-        int tripleValue;
-        int pairValue = combinationTreeMap.get(CombinationEnum.PAIR) / PAIR_SIZE;
-        int biggestPair;
-        int currentFullHouseValue;
-        boolean hasFullHouse = combinationTreeMap.containsKey(CombinationEnum.FULL_HOUSE);
-        int combinationTreeMapFullHouse = 0;
-        if (canAddFullHouse(currentDieSide, combinationTreeMap)) {
-            tripleValue = combinationTreeMap.get(CombinationEnum.TRIPLE) / TRIPLE_SIZE;
-            if (pairValue > currentDieSide && pairValue != tripleValue) {
-                biggestPair = pairValue;
-            } else {
-                biggestPair = currentDieSide;
-            }
-            currentFullHouseValue = biggestPair * PAIR_SIZE + tripleValue * TRIPLE_SIZE;
-            if (hasFullHouse) {
-                combinationTreeMapFullHouse = combinationTreeMap.get(CombinationEnum.FULL_HOUSE);
-            }
-            if (currentFullHouseValue > combinationTreeMapFullHouse) {
-                combinationTreeMap.put(CombinationEnum.FULL_HOUSE, currentFullHouseValue);
-            }
+    private void callAddMethods(Player player, Map<CombinationEnum, Integer> combinationTreeMap) {
+        EnumSet<CombinationEnum> playerRolledCombinations = player.getRolledCombinations();
+
+        if (hasBiggestFourOfAKind()) {
+            addFourOfAKind(playerRolledCombinations, combinationTreeMap);
+        }
+        if (hasBiggestTriple()) {
+            addTriple(playerRolledCombinations, combinationTreeMap);
+        }
+        if (hasBiggestPair()) {
+            addPair(playerRolledCombinations, combinationTreeMap);
+        }
+        if (hasSecondBiggestPair()) {
+            addDoublePair(playerRolledCombinations, combinationTreeMap);
+        }
+        if (hasBiggestTriple() && hasBiggestPair()) {
+            addFullHouse(playerRolledCombinations, combinationTreeMap);
+        }
+        if (hasStraight()) {
+            addStraight(playerRolledCombinations, combinationTreeMap);
         }
 
     }
-
-    public boolean hasGenerala(int currentDieSideDuplicates) {
-        return currentDieSideDuplicates == DiceRoll.getNumberOfDice();
+//todo:raname
+    private void resetInstanceVariables() {
+        biggestFourOfAKind = 0;
+        biggestTriple = 0;
+        biggestPair = 0;
+        secondBiggestPair = 0;
+        straightCounter = 0;
+        dieSideForCalculatingStraightPoints = 0;
     }
 
-    public void addGenerala(int currentDieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
-
-        combinationTreeMap.put(CombinationEnum.GENERALA, currentDieSide * DiceRoll.getNumberOfDice());
-
-    }
-
-    //TODO: ask about should you relay on sorting
-    public void addFourOfAKind(int currentDieSide, Map<CombinationEnum, Integer> comboMap) {
-        if (!comboMap.containsKey(CombinationEnum.FOUR_OF_A_KIND)) {
-            comboMap.put(CombinationEnum.FOUR_OF_A_KIND, currentDieSide * FOUR_OF_A_KIND_SIZE);
-        } else if (currentDieSide > comboMap.get(CombinationEnum.FOUR_OF_A_KIND) / FOUR_OF_A_KIND_SIZE) {
-            comboMap.put(CombinationEnum.FOUR_OF_A_KIND, currentDieSide * FOUR_OF_A_KIND_SIZE);
-        }
-
-    }
-
-    public void addTriple(int currentDieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
-        if (!combinationTreeMap.containsKey(CombinationEnum.TRIPLE)) {
-            combinationTreeMap.put(CombinationEnum.TRIPLE, currentDieSide * TRIPLE_SIZE);
-        } else if (currentDieSide > combinationTreeMap.get(CombinationEnum.TRIPLE) / TRIPLE_SIZE) {
-            combinationTreeMap.put(CombinationEnum.TRIPLE, currentDieSide * TRIPLE_SIZE);
+    //TODO:use key set
+    private void findStraight(Map<Integer, Integer> eachSideDuplicatesMap) {
+        for (Map.Entry<Integer, Integer> currentDieSideEntrySet : eachSideDuplicatesMap.entrySet()) {
+            if (straightCounter != STRAIGHT_SIZE) {
+                increaseStraightCounter(currentDieSideEntrySet.getKey());
+            } else
+                break;
         }
     }
 
-    public void addPair(int currentDieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
-        if (!combinationTreeMap.containsKey(CombinationEnum.PAIR)) {
-            combinationTreeMap.put(CombinationEnum.PAIR, currentDieSide * PAIR_SIZE);
-        } else if (currentDieSide > combinationTreeMap.get(CombinationEnum.PAIR) / PAIR_SIZE) {
-            combinationTreeMap.put(CombinationEnum.PAIR, currentDieSide * PAIR_SIZE);
-        }
-    }
-
-    private boolean canAddDoublePair(int currentDieSide, boolean containsPair, int pairValue) {
-        return containsPair && pairValue / PAIR_SIZE != currentDieSide;
-    }
-
-    public void addDoublePair(int currentDieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
-        int doublePairComboMapValue = 0;
-        int pairComboMapValue;
-
-        if (canAddDoublePair(currentDieSide,
-                combinationTreeMap.containsKey(CombinationEnum.PAIR),
-                combinationTreeMap.get(CombinationEnum.PAIR))) {
-
-            pairComboMapValue = combinationTreeMap.get(CombinationEnum.PAIR) / PAIR_SIZE;
-
-            if (combinationTreeMap.containsKey(CombinationEnum.DOUBLE_PAIR)) {
-
-                doublePairComboMapValue = combinationTreeMap.get(CombinationEnum.DOUBLE_PAIR) / PAIR_SIZE;
-            }
-
-            if (pairComboMapValue + currentDieSide > doublePairComboMapValue) {
-
-                combinationTreeMap.put(CombinationEnum.DOUBLE_PAIR,
-                        (pairComboMapValue + currentDieSide) * PAIR_SIZE);
-            }
-        }
-
-    }
-
-    public boolean canAddStraight(Map<CombinationEnum, Integer> combinationTreeMap) {
-        return combinationTreeMap.containsKey(CombinationEnum.STRAIGHT);
-    }
-
-    //todo:change
-    public boolean findStraight(int currentDieSide) {
+    //TODO:simplyfy
+    private void increaseStraightCounter(int currentDieSide) {
         if (straightCounter == 0) {
             straightCounter += 1;
             dieSideForCalculatingStraightPoints = currentDieSide;
-            return false;
+            return;
         }
         if (currentDieSide == dieSideForCalculatingStraightPoints - straightCounter) {
             straightCounter += 1;
         } else {
             straightCounter = 0;
         }
-        if (straightCounter == STRAIGHT_SIZE) {
-            return true;
-        }
-        return false;
-
-    }
-
-    public void addStraight(int currentDieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
-
-        if (findStraight(currentDieSide)) {
-            combinationTreeMap.put(CombinationEnum.STRAIGHT, countStraightPoints(dieSideForCalculatingStraightPoints));
-            straightCounter = 0;
-            dieSideForCalculatingStraightPoints = 0;
-        }
-
     }
 
     private int countStraightPoints(int dieSide) {
@@ -197,8 +136,137 @@ public final class CombinationFinder {
 
     }
 
-    private boolean hasAllCombinations(int playerRolledCombinationCount, int combinationTreeMapSize) {
-        return combinationTreeMapSize == (CombinationEnum.values().length - 1)
-                || playerRolledCombinationCount == CombinationEnum.values().length - 1;
+    //ADD METHODS
+    private void addGenerala(int currentDieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
+
+        combinationTreeMap.put(CombinationEnum.GENERALA
+                , (currentDieSide * DiceRoll.getNumberOfDice())
+                        + CombinationEnum.GENERALA.getScoreConst());
+
     }
+
+    private void addFourOfAKind(EnumSet<CombinationEnum> playerRolledCombinations, Map<CombinationEnum, Integer> combinationTreeMap) {
+        if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.FOUR_OF_A_KIND)) {
+            return;
+        }
+        combinationTreeMap.put(CombinationEnum.FOUR_OF_A_KIND
+                , (biggestFourOfAKind * FOUR_OF_A_KIND_SIZE)
+                        + CombinationEnum.FOUR_OF_A_KIND.getScoreConst());
+
+
+    }
+
+    private void addTriple(EnumSet<CombinationEnum> playerRolledCombinations, Map<CombinationEnum, Integer> combinationTreeMap) {
+        if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.TRIPLE)) {
+            return;
+        }
+        combinationTreeMap.put(CombinationEnum.TRIPLE
+                , (biggestTriple * TRIPLE_SIZE)
+                        + CombinationEnum.TRIPLE.getScoreConst());
+    }
+
+    private void addPair(EnumSet<CombinationEnum> playerRolledCombinations, Map<CombinationEnum, Integer> combinationTreeMap) {
+        if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.PAIR)) {
+            return;
+        }
+        combinationTreeMap.put(CombinationEnum.PAIR
+                , (biggestPair * PAIR_SIZE) + CombinationEnum.PAIR.getScoreConst());
+    }
+
+    private void addDoublePair(EnumSet<CombinationEnum> playerRolledCombinations, Map<CombinationEnum, Integer> combinationTreeMap) {
+        if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.DOUBLE_PAIR)) {
+            return;
+        }
+        combinationTreeMap.put(CombinationEnum.DOUBLE_PAIR
+                , ((biggestPair + secondBiggestPair) * PAIR_SIZE)
+                        + CombinationEnum.DOUBLE_PAIR.getScoreConst());
+
+    }
+
+    private void addFullHouse(EnumSet<CombinationEnum> playerRolledCombinations, Map<CombinationEnum, Integer> combinationTreeMap) {
+        if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.FULL_HOUSE)) {
+            return;
+        }
+        int pairToUseInCalculatingFullHouse;
+        if (biggestPair != biggestTriple) {
+            pairToUseInCalculatingFullHouse = biggestPair;
+        } else if (hasSecondBiggestPair()) {
+            pairToUseInCalculatingFullHouse = secondBiggestPair;
+        } else {
+            return;
+        }
+        combinationTreeMap.put(CombinationEnum.FULL_HOUSE
+                , (pairToUseInCalculatingFullHouse * PAIR_SIZE)
+                        + (biggestTriple * TRIPLE_SIZE)
+                        + CombinationEnum.FULL_HOUSE.getScoreConst());
+    }
+
+    private void addStraight(EnumSet<CombinationEnum> playerRolledCombinations, Map<CombinationEnum, Integer> combinationTreeMap) {
+        if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.STRAIGHT)) {
+            return;
+        }
+        combinationTreeMap.put(CombinationEnum.STRAIGHT, countStraightPoints(dieSideForCalculatingStraightPoints));
+
+    }
+
+    //BOOLEAN METHODS
+    private boolean hasGenerala(int currentDieSideDuplicates) {
+        return currentDieSideDuplicates == DiceRoll.getNumberOfDice();
+    }
+
+    private boolean hasBiggestPair() {
+        return biggestPair != 0;
+    }
+
+    private boolean hasSecondBiggestPair() {
+        return secondBiggestPair != 0;
+    }
+
+    private boolean hasBiggestTriple() {
+        return biggestTriple != 0;
+    }
+
+    private boolean hasBiggestFourOfAKind() {
+        return biggestFourOfAKind != 0;
+    }
+
+    private boolean hasStraight() {
+        return straightCounter == STRAIGHT_SIZE;
+    }
+
+    private boolean hasPlayerRolledCombination(EnumSet<CombinationEnum> rolledCombinations
+            , CombinationEnum combinationEnum) {
+        return rolledCombinations.contains(combinationEnum);
+    }
+
+    private boolean canBreakEarly(int playerRolledCombinationCount, int combinationTreeMapSize) {
+        return combinationTreeMapSize == (CombinationEnum.values().length - 1)
+                || playerRolledCombinationCount == CombinationEnum.values().length - 1
+                || canBreakFindNonCompoundCombinations();
+    }
+
+    private boolean canBreakFindNonCompoundCombinations() {
+        return biggestFourOfAKind != 0
+                && biggestTriple != 0
+                && biggestPair != 0
+                && secondBiggestPair != 0;
+    }
+
+    //SETTERS
+    private void setBiggestFourOfAKind(int biggestFourOfAKind) {
+        this.biggestFourOfAKind = biggestFourOfAKind;
+    }
+
+    private void setBiggestTriple(int biggestTriple) {
+        this.biggestTriple = biggestTriple;
+    }
+
+    private void setBiggestPair(int biggestPair) {
+        this.biggestPair = biggestPair;
+    }
+
+    private void setSecondBiggestPair(int secondBiggestPair) {
+        this.secondBiggestPair = secondBiggestPair;
+    }
+
 }
