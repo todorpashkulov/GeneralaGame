@@ -28,7 +28,7 @@ public final class CombinationFinder {
                 addGenerala(currentSideKey, combinationTreeMapReversed);
                 return combinationTreeMapReversed;
             }
-            if (canBreakEarly(player.getRolledCombinations().size(), combinationTreeMapReversed.size())) {
+            if (canStopFindCombinations(player.getRolledCombinations().size(), combinationTreeMapReversed.size())) {
                 break;
             }
             if (currentSideValue >= TWO_DUPLICATES) {
@@ -41,17 +41,17 @@ public final class CombinationFinder {
 
     //HELPER METHODS
     private void findNonCompoundCombinations(int currentSide, int currentSideDuplicates) {
-        if (currentSideDuplicates >= FOUR_OF_A_KIND_SIZE) {
+        if (currentSideDuplicates >= FOUR_OF_A_KIND) {
             if (!hasBiggestFourOfAKind()) {
                 setBiggestFourOfAKind(currentSide);
             }
         }
-        if (currentSideDuplicates >= TRIPLE_SIZE) {
+        if (currentSideDuplicates >= TRIPLE) {
             if (!hasBiggestTriple()) {
                 setBiggestTriple(currentSide);
             }
         }
-        if (currentSideDuplicates >= PAIR_SIZE) {
+        if (currentSideDuplicates >= PAIR) {
             if (!hasBiggestPair()) {
                 setBiggestPair(currentSide);
             } else if (!hasSecondBiggestPair()) {
@@ -80,10 +80,10 @@ public final class CombinationFinder {
         if (hasStraight(player.getDiceRoll().getEachSideDuplicatesTreeMapReversed().keySet())) {
             addStraight(playerRolledCombinations, combinationTreeMap);
         }
-        resetInstanceVariablesForCombinationCreating();
+        resetCombinationVariables();
     }
 
-    private void resetInstanceVariablesForCombinationCreating() {
+    private void resetCombinationVariables() {
         biggestFourOfAKind = 0;
         biggestTriple = 0;
         biggestPair = 0;
@@ -93,7 +93,7 @@ public final class CombinationFinder {
 
     private int countStraightScore(int sideForCalculatingStraightPoints) {
         int sum = 0;
-        for (int i = sideForCalculatingStraightPoints, counter = 0; counter < STRAIGHT_SIZE; i++, counter++) {
+        for (int i = sideForCalculatingStraightPoints, counter = 0; counter < STRAIGHT; i++, counter++) {
             sum += i;
         }
         return sum + CombinationEnum.STRAIGHT.getScoreConst();
@@ -112,7 +112,7 @@ public final class CombinationFinder {
             return;
         }
         combinationTreeMap.put(CombinationEnum.FOUR_OF_A_KIND,
-                (biggestFourOfAKind * FOUR_OF_A_KIND_SIZE) + CombinationEnum.FOUR_OF_A_KIND.getScoreConst());
+                (biggestFourOfAKind * FOUR_OF_A_KIND) + CombinationEnum.FOUR_OF_A_KIND.getScoreConst());
 
     }
 
@@ -122,7 +122,7 @@ public final class CombinationFinder {
             return;
         }
         combinationTreeMap.put(CombinationEnum.TRIPLE,
-                (biggestTriple * TRIPLE_SIZE) + CombinationEnum.TRIPLE.getScoreConst());
+                (biggestTriple * TRIPLE) + CombinationEnum.TRIPLE.getScoreConst());
     }
 
     private void addPair(EnumSet<CombinationEnum> playerRolledCombinations,
@@ -130,7 +130,7 @@ public final class CombinationFinder {
         if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.PAIR)) {
             return;
         }
-        combinationTreeMap.put(CombinationEnum.PAIR, (biggestPair * PAIR_SIZE) + CombinationEnum.PAIR.getScoreConst());
+        combinationTreeMap.put(CombinationEnum.PAIR, (biggestPair * PAIR) + CombinationEnum.PAIR.getScoreConst());
     }
 
     private void addDoublePair(EnumSet<CombinationEnum> playerRolledCombinations,
@@ -139,7 +139,7 @@ public final class CombinationFinder {
             return;
         }
         combinationTreeMap.put(CombinationEnum.DOUBLE_PAIR,
-                ((biggestPair + secondBiggestPair) * PAIR_SIZE)
+                ((biggestPair + secondBiggestPair) * PAIR)
                         + CombinationEnum.DOUBLE_PAIR.getScoreConst());
 
     }
@@ -158,7 +158,7 @@ public final class CombinationFinder {
             return;
         }
         combinationTreeMap.put(CombinationEnum.FULL_HOUSE,
-                (pairToUseInCalculatingFullHouse * PAIR_SIZE) + (biggestTriple * TRIPLE_SIZE)
+                (pairToUseInCalculatingFullHouse * PAIR) + (biggestTriple * TRIPLE)
                         + CombinationEnum.FULL_HOUSE.getScoreConst());
     }
 
@@ -203,7 +203,7 @@ public final class CombinationFinder {
                 counter = 0;
             } else
                 counter++;
-            if (counter == STRAIGHT_SIZE - 1) {
+            if (counter == STRAIGHT - 1) {
                 sideForCalculatingStraightPoints = rolledSidesList.get(i + 1);
                 return true;
             }
@@ -211,13 +211,13 @@ public final class CombinationFinder {
         return false;
     }
 
-    private boolean canBreakEarly(int playerRolledCombinationCount, int combinationTreeMapSize) {
+    private boolean canStopFindCombinations(int playerRolledCombinationCount, int combinationTreeMapSize) {
         return combinationTreeMapSize == (CombinationEnum.values().length - 1) ||
                 playerRolledCombinationCount == CombinationEnum.values().length - 1 ||
-                canBreakFindNonCompoundCombinations();
+                canStopCombinationSearch();
     }
 
-    private boolean canBreakFindNonCompoundCombinations() {
+    private boolean canStopCombinationSearch() {
         return biggestFourOfAKind != 0 && biggestTriple != 0 && biggestPair != 0 && secondBiggestPair != 0;
     }
 

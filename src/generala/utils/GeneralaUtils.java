@@ -29,7 +29,7 @@ public final class GeneralaUtils {
             //Making string
             diceRollString.append(tempRandomNum);
             //Filling DiceRoll EnumMap
-            addCurrentSideToDiceRollMapWithDuplicates(diceRoll, tempRandomNum);
+            addCurrentSideToDiceRoll(diceRoll, tempRandomNum);
 
         }
 
@@ -52,7 +52,7 @@ public final class GeneralaUtils {
         }
     }
 
-    private static void addCurrentSideToDiceRollMapWithDuplicates(DiceRoll diceRoll, int value) {
+    private static void addCurrentSideToDiceRoll(DiceRoll diceRoll, int value) {
         Map<Integer, Integer> dieSideDuplicatesMap = diceRoll.getEachSideDuplicatesTreeMapReversed();
         if (dieSideDuplicatesMap.containsKey(value)) {
             dieSideDuplicatesMap.put(value, dieSideDuplicatesMap.get(value) + 1);

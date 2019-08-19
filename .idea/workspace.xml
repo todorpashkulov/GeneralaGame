@@ -9,21 +9,11 @@
     <bookmark url="file://$PROJECT_DIR$/src/generala/objects/DiceRoll.java" line="7" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c2f05cb-d58c-4443-af67-b8831a3fd08c" name="Default Changelist" comment="Change Log:&#10;-refactored CombinationFinder and GeneralaPrinter to utils&#10;-">
+    <list default="true" id="9c2f05cb-d58c-4443-af67-b8831a3fd08c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GeneralaGame/generala/application/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GeneralaGame/generala/application/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GeneralaGame/generala/combinations/CombinationFinder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GeneralaGame/generala/constants/GeneralaConstants.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GeneralaGame/generala/constants/GeneralaConstants.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GeneralaGame/generala/objects/Generala.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GeneralaGame/generala/objects/Generala.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GeneralaGame/generala/objects/GeneralaPrinter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/generala/application/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/generala/application/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/generala/combinations/CombinationFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/generala/utils/CombinationFinder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/generala/constants/GeneralaConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/generala/constants/GeneralaConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/generala/objects/DiceRoll.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/generala/objects/DiceRoll.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/generala/objects/Generala.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/generala/objects/Generala.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/generala/objects/GeneralaPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/generala/utils/GeneralaPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/generala/utils/CombinationFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/generala/utils/CombinationFinder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/generala/utils/GeneralaUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/generala/utils/GeneralaUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/generala.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/generala.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -54,56 +44,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/generala/application/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="6" column="35" selection-start-line="6" selection-start-column="35" selection-end-line="6" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/generala/enums/CombinationEnum.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/resources/generala.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="4" selection-start-line="4" selection-end-line="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/generala/utils/GeneralaPrinter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
-              <folding>
-                <element signature="method#printRoundSeparator#0;class#GeneralaPrinter#0" />
-                <element signature="method#printGeneralaWin#0;class#GeneralaPrinter#0" />
-                <element signature="method#printNormalWin#0;class#GeneralaPrinter#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/generala/constants/GeneralaConstants.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="6" column="52" selection-start-line="6" selection-start-column="52" selection-end-line="6" selection-end-column="52" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/generala/objects/Generala.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -116,52 +56,15 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/generala/objects/Player.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/generala/utils/GeneralaUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
+            <state relative-caret-position="440">
+              <caret line="54" column="40" lean-forward="true" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#Player#0;class#Player#0" />
-                <element signature="method#setRolledCombinations#0;class#Player#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/generala/objects/DiceRoll.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="11" column="87" selection-start-line="11" selection-start-column="87" selection-end-line="11" selection-end-column="87" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/generala/utils/CombinationFinder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#findNonCompoundCombinations#0;class#CombinationFinder#0" />
-                <element signature="method#callAddMethods#0;class#CombinationFinder#0" />
-                <element signature="method#resetInstanceVariablesForCombinationCreating#0;class#CombinationFinder#0" />
-                <element signature="method#countStraightScore#0;class#CombinationFinder#0" />
-                <element signature="method#addGenerala#0;class#CombinationFinder#0" />
-                <element signature="method#addTriple#0;class#CombinationFinder#0" />
-                <element signature="method#addPair#0;class#CombinationFinder#0" />
-                <element signature="method#addDoublePair#0;class#CombinationFinder#0" />
-                <element signature="method#addFullHouse#0;class#CombinationFinder#0" />
-                <element signature="method#hasGenerala#0;class#CombinationFinder#0" />
-                <element signature="method#hasPlayerRolledCombination#0;class#CombinationFinder#0" />
-                <element signature="method#hasStraight#0;class#CombinationFinder#0" />
-                <element signature="method#canBreakFindNonCompoundCombinations#0;class#CombinationFinder#0" />
+                <element signature="method#GeneralaUtils#0;class#GeneralaUtils#0" />
+                <element signature="method#generateRandomDiceRoll#0;class#GeneralaUtils#0" />
+                <element signature="method#generateRandomDiceRollForEachPlayer#0;class#GeneralaUtils#0" />
               </folding>
             </state>
           </provider>
@@ -242,12 +145,13 @@
         <option value="$PROJECT_DIR$/src/generala/combinations/CombinationFinder.java" />
         <option value="$PROJECT_DIR$/src/resources/generala.properties" />
         <option value="$PROJECT_DIR$/src/generala/objects/DiceRoll.java" />
-        <option value="$PROJECT_DIR$/src/generala/constants/GeneralaConstants.java" />
         <option value="$PROJECT_DIR$/src/generala/utils/GeneralaPrinter.java" />
         <option value="$PROJECT_DIR$/src/generala/enums/CombinationEnum.java" />
         <option value="$PROJECT_DIR$/src/generala/objects/Generala.java" />
-        <option value="$PROJECT_DIR$/src/generala/utils/CombinationFinder.java" />
         <option value="$PROJECT_DIR$/src/generala/application/Main.java" />
+        <option value="$PROJECT_DIR$/src/generala/constants/GeneralaConstants.java" />
+        <option value="$PROJECT_DIR$/src/generala/utils/CombinationFinder.java" />
+        <option value="$PROJECT_DIR$/src/generala/utils/GeneralaUtils.java" />
       </list>
     </option>
   </component>
@@ -269,8 +173,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -434,7 +338,9 @@
       <workItem from="1565852289193" duration="20130000" />
       <workItem from="1565937722201" duration="13082000" />
       <workItem from="1566198293515" duration="12593000" />
-      <workItem from="1566214496832" duration="257000" />
+      <workItem from="1566214496832" duration="1198000" />
+      <workItem from="1566215978422" duration="12000" />
+      <workItem from="1566225122771" duration="1879000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1564474198050</created>
@@ -520,11 +426,18 @@
       <option name="project" value="LOCAL" />
       <updated>1565860677965</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Change Log:&#10;-refactored CombinationFinder and GeneralaPrinter to utils&#10;-refactored hasStraight() method in GeneralaFinder&#10;-refactored names in Combination finder">
+      <created>1566214992809</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1566214992809</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="260675000" />
+    <option name="totallyTimeSpent" value="263507000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -537,8 +450,43 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49776286" visible="true" weight="0.13539445" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49776286" visible="true" weight="0.1380597" />
+      <window_info id="Structure" order="1" sideWeight="0.50083196" side_tool="true" weight="0.2553305" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" sideWeight="0.50223714" side_tool="true" weight="0.13166311" />
+      <window_info active="true" anchor="bottom" id="GitHub Pull Requests" weight="0.32997763" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32997763" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49733475" weight="0.44519016" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39932886" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49946696" weight="0.32550335" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3277405" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.2935268" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50053304" side_tool="true" weight="0.32885906" />
+      <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.49840087" weight="0.32885906" />
+      <window_info anchor="bottom" id="Duplicates" order="13" weight="0.32997763" />
+      <window_info anchor="bottom" id="Inspection Results" order="14" weight="0.32997763" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Database" order="4" weight="0.32995737" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Maven" order="6" weight="0.32995737" />
+      <window_info anchor="right" id="Capture Analysis" order="7" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49776286" visible="true" weight="0.1380597" />
       <window_info id="Structure" order="1" sideWeight="0.50083196" side_tool="true" weight="0.2553305" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -555,40 +503,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3277405" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.6823266" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50053304" side_tool="true" weight="0.32885906" />
-      <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.49840087" weight="0.32885906" />
-      <window_info anchor="bottom" id="Duplicates" order="13" weight="0.32997763" />
-      <window_info anchor="bottom" id="Inspection Results" order="14" weight="0.32997763" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Database" order="4" weight="0.32995737" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Maven" order="6" weight="0.32995737" />
-      <window_info anchor="right" id="Capture Analysis" order="7" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
-    </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49776286" visible="true" weight="0.13432837" />
-      <window_info id="Structure" order="1" sideWeight="0.50083196" side_tool="true" weight="0.2553305" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="UI Designer" order="4" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info id="Favorites" order="6" sideWeight="0.50223714" side_tool="true" weight="0.13166311" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32997763" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49733475" weight="0.44608566" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39932886" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49946696" weight="0.32550335" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3277405" />
-      <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.68240345" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.2935268" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50053304" side_tool="true" weight="0.32885906" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.49840087" weight="0.32885906" />
       <window_info anchor="bottom" id="Duplicates" order="13" weight="0.32997763" />
@@ -669,19 +584,8 @@
     <MESSAGE value="Change Log:" />
     <MESSAGE value="Change Log:&#10;-refactored GeneralConstants,Combinations,GeneralaPrinter&#10;-updated Combinations.addStraight()" />
     <MESSAGE value="Change Log:&#10;-moved findCombinations from Generala to CombinationFinder&#10;-moved Main to application package&#10;-renamed generalautils package into utils" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change Log:&#10;-moved findCombinations from Generala to CombinationFinder&#10;-moved Main to application package&#10;-renamed generalautils package into utils" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/generala/utils/CombinationFinder.java</url>
-          <line>199</line>
-          <properties />
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Change Log:&#10;-refactored CombinationFinder and GeneralaPrinter to utils&#10;-refactored hasStraight() method in GeneralaFinder&#10;-refactored names in Combination finder" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change Log:&#10;-refactored CombinationFinder and GeneralaPrinter to utils&#10;-refactored hasStraight() method in GeneralaFinder&#10;-refactored names in Combination finder" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -3015,25 +2919,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/generala/utils/GeneralaUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="45" column="23" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
-          <folding>
-            <element signature="method#GeneralaUtils#0;class#GeneralaUtils#0" />
-            <element signature="method#generateRandomDiceRoll#0;class#GeneralaUtils#0" />
-            <element signature="method#generateRandomDiceRollForEachPlayer#0;class#GeneralaUtils#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/generala/application/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" column="35" selection-start-line="6" selection-start-column="35" selection-end-line="6" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/generala/enums/CombinationEnum.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -3060,23 +2945,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/generala/constants/GeneralaConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" column="52" selection-start-line="6" selection-start-column="52" selection-end-line="6" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/generala/objects/Generala.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/generala/objects/Player.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="320">
@@ -3099,10 +2967,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/src-generala-constants-GeneralaConstants.java.url">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/generala/application/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="8" column="32" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/generala/utils/CombinationFinder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        <state relative-caret-position="490">
+          <caret line="222" lean-forward="true" selection-start-line="222" selection-end-line="222" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#findNonCompoundCombinations#0;class#CombinationFinder#0" />
@@ -3114,10 +2992,40 @@
             <element signature="method#addPair#0;class#CombinationFinder#0" />
             <element signature="method#addDoublePair#0;class#CombinationFinder#0" />
             <element signature="method#addFullHouse#0;class#CombinationFinder#0" />
+            <element signature="method#addStraight#0;class#CombinationFinder#0" />
             <element signature="method#hasGenerala#0;class#CombinationFinder#0" />
             <element signature="method#hasPlayerRolledCombination#0;class#CombinationFinder#0" />
             <element signature="method#hasStraight#0;class#CombinationFinder#0" />
             <element signature="method#canBreakFindNonCompoundCombinations#0;class#CombinationFinder#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/generala/constants/GeneralaConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="41" lean-forward="true" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/generala/objects/Generala.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/generala/utils/GeneralaUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="54" column="40" lean-forward="true" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
+          <folding>
+            <element signature="method#GeneralaUtils#0;class#GeneralaUtils#0" />
+            <element signature="method#generateRandomDiceRoll#0;class#GeneralaUtils#0" />
+            <element signature="method#generateRandomDiceRollForEachPlayer#0;class#GeneralaUtils#0" />
           </folding>
         </state>
       </provider>
