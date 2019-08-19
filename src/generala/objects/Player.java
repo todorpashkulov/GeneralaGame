@@ -1,13 +1,12 @@
 package generala.objects;
 
-
 import generala.enums.CombinationEnum;
 
 import java.util.EnumSet;
 
 public class Player {
     private String name;
-    private DiceRoll diceRollObj = new DiceRoll();
+    private DiceRoll diceRoll = new DiceRoll();
     private EnumSet<CombinationEnum> rolledCombinations = EnumSet.noneOf(CombinationEnum.class);
     private int score = 0;
 
@@ -17,7 +16,6 @@ public class Player {
     public Player(String name) {
         this.name = name;
     }
-
 
     public EnumSet<CombinationEnum> getRolledCombinations() {
         return rolledCombinations;
@@ -31,8 +29,8 @@ public class Player {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void addScore(int score) {
+        this.score += score;
     }
 
     public String getName() {
@@ -43,11 +41,11 @@ public class Player {
         this.name = name;
     }
 
-    public DiceRoll getDiceRollObj() {
-        return diceRollObj;
+    public DiceRoll getDiceRoll() {
+        return diceRoll;
     }
 
-    public void setDiceRollObj(DiceRoll diceRollObj) {
-        this.diceRollObj = diceRollObj;
+    public void setDiceRoll(DiceRoll diceRoll) {
+        this.diceRoll = diceRoll;
     }
 }
