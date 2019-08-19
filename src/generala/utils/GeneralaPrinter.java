@@ -1,10 +1,12 @@
-package generala.objects;
+package generala.utils;
 
 import generala.enums.CombinationEnum;
+import generala.objects.Player;
 
 import java.util.Comparator;
 import java.util.List;
 
+//TODO:try to make it more abstract
 public final class GeneralaPrinter {
 
     public void printRoundSeparator(int currentRound) {
@@ -45,13 +47,13 @@ public final class GeneralaPrinter {
     public void printRound(Player player, int oldScore, CombinationEnum currentCombo) {
         System.out.println(">" + player.getName());
         System.out.println("Current Score: " + oldScore);
-        System.out.print(player.getDiceRoll());
+        System.out.print(player.getDiceRoll().toString());
         //TODO:REMOVE
         System.out.println(player.getDiceRoll().getEachSideDuplicatesTreeMapReversed());
 
-        System.out.print(currentCombo == null ?
-                " -> No Combos" :
-                " -> " + currentCombo.getLabel() + " ( " + (player.getScore() - oldScore) + " )");
+        System.out.print(currentCombo == null
+                ? " -> No Combos"
+                : " -> " + currentCombo.getLabel() + " ( " + (player.getScore() - oldScore) + " )");
         System.out.println();
         System.out.println("New Score: " + player.getScore());
         System.out.println();

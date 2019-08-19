@@ -16,8 +16,8 @@ public final class GeneralaUtils {
     public static void generateRandomDiceRoll(Player player) {
         DiceRoll diceRoll = player.getDiceRoll();
         diceRoll.getEachSideDuplicatesTreeMapReversed().clear();
-        int numberOfDice = DiceRoll.getNumberOfDice();
-        int numberOfDiceSides = DiceRoll.getNumberOfDiceSides();
+        int numberOfDice = DiceRoll.getDiceCount();
+        int numberOfDiceSides = DiceRoll.getDiceSidesCount();
         StringBuilder diceRollString = new StringBuilder(numberOfDice);
         int tempRandomNum;
 

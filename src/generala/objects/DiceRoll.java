@@ -5,29 +5,29 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class DiceRoll {
-    //cant be final TODO: ask
-    private static int numberOfDice;
-    private static int numberOfDiceSides;
+
+    private static int diceCount;
+    private static int diceSidesCount;
     private String diceRoll;
     private Map<Integer, Integer> eachSideDuplicatesTreeMapReversed = new TreeMap<>(Comparator.reverseOrder());
 
     public DiceRoll() {
     }
 
-    public static int getNumberOfDice() {
-        return numberOfDice;
+    public static int getDiceCount() {
+        return diceCount;
     }
 
-    public static void setNumberOfDice(int numberOfDice) {
-        DiceRoll.numberOfDice = numberOfDice;
+    public static void setDiceCount(int diceCount) {
+        DiceRoll.diceCount = diceCount;
     }
 
-    public static int getNumberOfDiceSides() {
-        return numberOfDiceSides;
+    public static int getDiceSidesCount() {
+        return diceSidesCount;
     }
 
-    public static void setNumberOfDiceSides(int numberOfDiceSides) {
-        DiceRoll.numberOfDiceSides = numberOfDiceSides;
+    public static void setDiceSidesCount(int diceSidesCount) {
+        DiceRoll.diceSidesCount = diceSidesCount;
     }
 
     public void setDiceRoll(String diceRoll) {
