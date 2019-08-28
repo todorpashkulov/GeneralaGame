@@ -2,14 +2,12 @@ package generala.objects;
 
 import generala.application.Main;
 import generala.enums.CombinationEnum;
-import generala.utils.CombinationFinder;
 import generala.utils.GeneralaPrinter;
 import generala.utils.GeneralaUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 public final class Generala {
@@ -17,7 +15,6 @@ public final class Generala {
     private static int playerCount;
     private static int roundCount;
     private GeneralaPrinter generalaPrinter = new GeneralaPrinter();
-    private CombinationFinder combinationFinder = new CombinationFinder();
 
     public void playGenerala() {
         loadPropertiesFile();
@@ -29,7 +26,7 @@ public final class Generala {
             generalaPrinter.printRoundSeparator(i + 1);
             for (Player p : players) {
                 oldPlayerScore = p.getScore();
-                currentPlayerBiggestCombination = addScoreToPlayer(p);
+                currentPlayerBiggestCombination = p.addScore();
                 generalaPrinter.printRound(p, oldPlayerScore, currentPlayerBiggestCombination);
                 if (currentPlayerBiggestCombination != null &&
                         currentPlayerBiggestCombination.equals(CombinationEnum.GENERALA)) {
@@ -42,29 +39,7 @@ public final class Generala {
 
     }
 
-    private CombinationEnum addScoreToPlayer(Player player) {
-        Map<CombinationEnum, Integer> combinationTreeMap = combinationFinder.findCombinationsInPlayerDiceRoll(player);
-        CombinationEnum biggestCombination = null;
-        int biggestCombinationValue = 0;
 
-        //todo:Remove(only for Test)
-        System.out.println(combinationTreeMap);
-        for (Map.Entry<CombinationEnum, Integer> currentCombinationMapEntry : combinationTreeMap.entrySet()) {
-            if (currentCombinationMapEntry.getKey().equals(CombinationEnum.GENERALA)) {
-                biggestCombination = CombinationEnum.GENERALA;
-                biggestCombinationValue = currentCombinationMapEntry.getValue();
-                break;
-            } else if (currentCombinationMapEntry.getValue() > biggestCombinationValue) {
-                biggestCombination = currentCombinationMapEntry.getKey();
-                biggestCombinationValue = currentCombinationMapEntry.getValue();
-            }
-        }
-        if (biggestCombination != null) {
-            player.getRolledCombinations().add(biggestCombination);
-            player.addScore(biggestCombinationValue);
-        }
-        return biggestCombination;
-    }
 
     private void loadPropertiesFile() {
         try (InputStream input = Main.class.getClassLoader().getResourceAsStream("generala.properties")) {
