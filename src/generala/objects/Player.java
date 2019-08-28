@@ -29,8 +29,6 @@ public class Player {
         return score;
     }
 
-
-
     public String getName() {
         return name;
     }
