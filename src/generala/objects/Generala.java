@@ -1,6 +1,6 @@
 package generala.objects;
 
-import generala.application.Main;
+import generala.application.Application;
 import generala.enums.CombinationEnum;
 import generala.utils.GeneralaPrinter;
 import generala.utils.GeneralaUtils;
@@ -21,6 +21,7 @@ public final class Generala {
         List<Player> players = GeneralaUtils.generatePlayerList(playerCount);
         CombinationEnum currentPlayerBiggestCombination;
         int oldPlayerScore;
+        generalaPrinter.printNewGame();
         for (int i = 0; i < roundCount; i++) {
             GeneralaUtils.generateRandomDiceRollForEachPlayer(players);
             generalaPrinter.printRoundSeparator(i + 1);
@@ -42,7 +43,7 @@ public final class Generala {
 
 
     private void loadPropertiesFile() {
-        try (InputStream input = Main.class.getClassLoader().getResourceAsStream("generala.properties")) {
+        try (InputStream input = Application.class.getClassLoader().getResourceAsStream("generala.properties")) {
             Properties properties = new Properties();
             properties.load(input);
             playerCount = Integer.valueOf(properties.getProperty("players"));
