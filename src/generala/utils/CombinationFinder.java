@@ -60,7 +60,7 @@ public final class CombinationFinder {
         }
     }
 
-    private void callAddMethods(final Player player,final  Map<CombinationEnum, Integer> combinationTreeMap) {
+    private void callAddMethods(final Player player, final Map<CombinationEnum, Integer> combinationTreeMap) {
         EnumSet<CombinationEnum> playerRolledCombinations = player.getRolledCombinations();
         if (hasBiggestFourOfAKind()) {
             addFourOfAKind(playerRolledCombinations, combinationTreeMap);
@@ -100,7 +100,7 @@ public final class CombinationFinder {
     }
 
     //ADD METHODS
-    private void addGenerala(final int currentDieSide,final Map<CombinationEnum, Integer> combinationTreeMap) {
+    private void addGenerala(final int currentDieSide, final Map<CombinationEnum, Integer> combinationTreeMap) {
         combinationTreeMap.put(CombinationEnum.GENERALA,
                 (currentDieSide * DiceRoll.getDiceCount()) + CombinationEnum.GENERALA.getScoreConst());
 

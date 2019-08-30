@@ -41,7 +41,6 @@ public final class Generala {
     }
 
 
-
     private void loadPropertiesFile() {
         try (InputStream input = Application.class.getClassLoader().getResourceAsStream("generala.properties")) {
             Properties properties = new Properties();
