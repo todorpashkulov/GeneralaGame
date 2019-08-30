@@ -13,12 +13,12 @@ public final class GeneralaPrinter {
     private static final Logger LOGGER = LogManager.getLogger(GeneralaPrinter.class);
 
 
-    public void printRoundSeparator(int currentRound) {
+    public void printRoundSeparator(final int currentRound) {
         LOGGER.info("<-------------------------------------------------->");
         LOGGER.info(">>>Round " + currentRound + System.lineSeparator());
     }
 
-    public void printGeneralaWin(Player player, List<Player> playerList) {
+    public void printGeneralaWin(final Player player,final  List<Player> playerList) {
         playerList.remove(player);
         LOGGER.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         LOGGER.info("WINNER IS ");
@@ -28,7 +28,7 @@ public final class GeneralaPrinter {
         printNormalWin(playerList, true);
     }
 
-    public void printNormalWin(List<Player> playerList, boolean hasGenerala) {
+    public void printNormalWin(final List<Player> playerList, final boolean hasGenerala) {
         playerList.sort(Comparator.comparing(Player::getScore).reversed());
         Player lastPlayer = playerList.get(0);
         LOGGER.info("<-------------------------------------------------------->");
@@ -43,7 +43,7 @@ public final class GeneralaPrinter {
         }
     }
 
-    public void printRound(Player player, int oldScore, CombinationEnum currentCombo) {
+    public void printRound(final Player player, final int oldScore,final  CombinationEnum currentCombo) {
         LOGGER.info(">" + player.getName());
         LOGGER.info("Current Score: " + oldScore);
         //TODO:REMOVE

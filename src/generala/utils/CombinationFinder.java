@@ -17,7 +17,7 @@ public final class CombinationFinder {
     private int secondBiggestPair;
 
     //PUBLIC METHODS
-    public Map<CombinationEnum, Integer> findCombinationsInPlayerDiceRoll(Player player) {
+    public Map<CombinationEnum, Integer> findCombinationsInPlayerDiceRoll(final Player player) {
         Map<CombinationEnum, Integer> combinationTreeMapReversed = new TreeMap<>(Collections.reverseOrder());
         for (Map.Entry<Integer, Integer> currentSideEntrySet : player.getDiceRoll()
                 .getEachSideDuplicatesTreeMapReversed()
@@ -40,7 +40,7 @@ public final class CombinationFinder {
     }
 
     //HELPER METHODS
-    private void findNonCompoundCombinations(int currentSide, int currentSideDuplicates) {
+    private void findNonCompoundCombinations(final int currentSide, final int currentSideDuplicates) {
         if (currentSideDuplicates >= FOUR_OF_A_KIND) {
             if (!hasBiggestFourOfAKind()) {
                 setBiggestFourOfAKind(currentSide);
@@ -60,7 +60,7 @@ public final class CombinationFinder {
         }
     }
 
-    private void callAddMethods(Player player, Map<CombinationEnum, Integer> combinationTreeMap) {
+    private void callAddMethods(final Player player,final  Map<CombinationEnum, Integer> combinationTreeMap) {
         EnumSet<CombinationEnum> playerRolledCombinations = player.getRolledCombinations();
         if (hasBiggestFourOfAKind()) {
             addFourOfAKind(playerRolledCombinations, combinationTreeMap);
@@ -91,7 +91,7 @@ public final class CombinationFinder {
         sideForCalculatingStraightPoints = 0;
     }
 
-    private int countStraightScore(int sideForCalculatingStraightPoints) {
+    private int countStraightScore(final int sideForCalculatingStraightPoints) {
         int sum = 0;
         for (int i = sideForCalculatingStraightPoints, counter = 0; counter < STRAIGHT; i++, counter++) {
             sum += i;
@@ -100,14 +100,14 @@ public final class CombinationFinder {
     }
 
     //ADD METHODS
-    private void addGenerala(int currentDieSide, Map<CombinationEnum, Integer> combinationTreeMap) {
+    private void addGenerala(final int currentDieSide,final Map<CombinationEnum, Integer> combinationTreeMap) {
         combinationTreeMap.put(CombinationEnum.GENERALA,
                 (currentDieSide * DiceRoll.getDiceCount()) + CombinationEnum.GENERALA.getScoreConst());
 
     }
 
-    private void addFourOfAKind(EnumSet<CombinationEnum> playerRolledCombinations,
-                                Map<CombinationEnum, Integer> combinationTreeMap) {
+    private void addFourOfAKind(final EnumSet<CombinationEnum> playerRolledCombinations,
+                                final Map<CombinationEnum, Integer> combinationTreeMap) {
         if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.FOUR_OF_A_KIND)) {
             return;
         }
@@ -116,8 +116,8 @@ public final class CombinationFinder {
 
     }
 
-    private void addTriple(EnumSet<CombinationEnum> playerRolledCombinations,
-                           Map<CombinationEnum, Integer> combinationTreeMap) {
+    private void addTriple(final EnumSet<CombinationEnum> playerRolledCombinations,
+                           final Map<CombinationEnum, Integer> combinationTreeMap) {
         if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.TRIPLE)) {
             return;
         }
@@ -125,16 +125,16 @@ public final class CombinationFinder {
                 (biggestTriple * TRIPLE) + CombinationEnum.TRIPLE.getScoreConst());
     }
 
-    private void addPair(EnumSet<CombinationEnum> playerRolledCombinations,
-                         Map<CombinationEnum, Integer> combinationTreeMap) {
+    private void addPair(final EnumSet<CombinationEnum> playerRolledCombinations,
+                         final Map<CombinationEnum, Integer> combinationTreeMap) {
         if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.PAIR)) {
             return;
         }
         combinationTreeMap.put(CombinationEnum.PAIR, (biggestPair * PAIR) + CombinationEnum.PAIR.getScoreConst());
     }
 
-    private void addDoublePair(EnumSet<CombinationEnum> playerRolledCombinations,
-                               Map<CombinationEnum, Integer> combinationTreeMap) {
+    private void addDoublePair(final EnumSet<CombinationEnum> playerRolledCombinations,
+                               final Map<CombinationEnum, Integer> combinationTreeMap) {
         if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.DOUBLE_PAIR)) {
             return;
         }
@@ -144,8 +144,8 @@ public final class CombinationFinder {
 
     }
 
-    private void addFullHouse(EnumSet<CombinationEnum> playerRolledCombinations,
-                              Map<CombinationEnum, Integer> combinationTreeMap) {
+    private void addFullHouse(final EnumSet<CombinationEnum> playerRolledCombinations,
+                              final Map<CombinationEnum, Integer> combinationTreeMap) {
         if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.FULL_HOUSE)) {
             return;
         }
@@ -162,8 +162,8 @@ public final class CombinationFinder {
                         + CombinationEnum.FULL_HOUSE.getScoreConst());
     }
 
-    private void addStraight(EnumSet<CombinationEnum> playerRolledCombinations,
-                             Map<CombinationEnum, Integer> combinationTreeMap) {
+    private void addStraight(final EnumSet<CombinationEnum> playerRolledCombinations,
+                             final Map<CombinationEnum, Integer> combinationTreeMap) {
         if (hasPlayerRolledCombination(playerRolledCombinations, CombinationEnum.STRAIGHT)) {
             return;
         }
@@ -171,7 +171,7 @@ public final class CombinationFinder {
     }
 
     //BOOLEAN METHODS
-    private boolean hasGenerala(int currentDieSideDuplicates) {
+    private boolean hasGenerala(final int currentDieSideDuplicates) {
         return currentDieSideDuplicates == DiceRoll.getDiceCount();
     }
 
@@ -191,12 +191,12 @@ public final class CombinationFinder {
         return biggestFourOfAKind != 0;
     }
 
-    private boolean hasPlayerRolledCombination(EnumSet<CombinationEnum> rolledCombinations,
-                                               CombinationEnum combinationEnum) {
+    private boolean hasPlayerRolledCombination(final EnumSet<CombinationEnum> rolledCombinations,
+                                               final CombinationEnum combinationEnum) {
         return rolledCombinations.contains(combinationEnum);
     }
 
-    private boolean hasStraight(Set<Integer> rolledSidesSet) {
+    private boolean hasStraight(final Set<Integer> rolledSidesSet) {
         List<Integer> rolledSidesList = new ArrayList<>(rolledSidesSet);
         for (int i = 0, counter = 0; i < rolledSidesList.size() - 1; i++) {
             if (rolledSidesList.get(i) - 1 != rolledSidesList.get(i + 1)) {
@@ -211,7 +211,7 @@ public final class CombinationFinder {
         return false;
     }
 
-    private boolean canStopFindCombinations(int playerRolledCombinationCount, int combinationTreeMapSize) {
+    private boolean canStopFindCombinations(final int playerRolledCombinationCount, final int combinationTreeMapSize) {
         return combinationTreeMapSize == (CombinationEnum.values().length - 1) ||
                 playerRolledCombinationCount == CombinationEnum.values().length - 1 ||
                 canStopCombinationSearch();
@@ -222,19 +222,19 @@ public final class CombinationFinder {
     }
 
     //SETTERS
-    private void setBiggestFourOfAKind(int biggestFourOfAKind) {
+    private void setBiggestFourOfAKind(final int biggestFourOfAKind) {
         this.biggestFourOfAKind = biggestFourOfAKind;
     }
 
-    private void setBiggestTriple(int biggestTriple) {
+    private void setBiggestTriple(final int biggestTriple) {
         this.biggestTriple = biggestTriple;
     }
 
-    private void setBiggestPair(int biggestPair) {
+    private void setBiggestPair(final int biggestPair) {
         this.biggestPair = biggestPair;
     }
 
-    private void setSecondBiggestPair(int secondBiggestPair) {
+    private void setSecondBiggestPair(final int secondBiggestPair) {
         this.secondBiggestPair = secondBiggestPair;
     }
 }

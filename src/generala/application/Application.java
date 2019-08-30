@@ -3,7 +3,7 @@ package generala.application;
 import generala.objects.Generala;
 
 public class Application {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         Generala ganerala = new Generala();
         ganerala.playGenerala();
         //CombinationFinder combinationFinder=new CombinationFinder();

@@ -1,6 +1,6 @@
 package generala.constants;
 
-public class GeneralaConstants {
+public final class GeneralaConstants {
 
     public static final int PAIR = 2;
     public static final int TRIPLE = 3;

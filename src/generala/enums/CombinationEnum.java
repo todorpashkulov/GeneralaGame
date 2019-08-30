@@ -13,7 +13,7 @@ public enum CombinationEnum {
     private final String label;
 
 
-    CombinationEnum(int scoreConst, String label) {
+    CombinationEnum(final int scoreConst,final String label) {
         this.scoreConst = scoreConst;
         this.label = label;
     }

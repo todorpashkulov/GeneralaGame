@@ -17,7 +17,7 @@ public class Player {
     public Player() {
     }
 
-    public Player(String name) {
+    public Player(final String name) {
         this.name = name;
     }
 
@@ -37,7 +37,7 @@ public class Player {
         return diceRoll;
     }
 
-    public void setDiceRoll(DiceRoll diceRoll) {
+    public void setDiceRoll(final DiceRoll diceRoll) {
         this.diceRoll = diceRoll;
     }
 
