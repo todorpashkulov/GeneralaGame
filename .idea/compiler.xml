@@ -11,7 +11,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="generala" target="1.5" />
-      <module name="GeneralaGame" target="1.5" />
+      <module name="GeneralaGame" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

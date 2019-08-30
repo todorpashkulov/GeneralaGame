@@ -18,7 +18,7 @@ public class DiceRoll {
         return diceCount;
     }
 
-    public static void setDiceCount(int diceCount) {
+    public static void setDiceCount(final int diceCount) {
         DiceRoll.diceCount = diceCount;
     }
 
@@ -26,11 +26,11 @@ public class DiceRoll {
         return diceSidesCount;
     }
 
-    public static void setDiceSidesCount(int diceSidesCount) {
+    public static void setDiceSidesCount(final int diceSidesCount) {
         DiceRoll.diceSidesCount = diceSidesCount;
     }
 
-    public void setDiceRoll(String diceRoll) {
+    public void setDiceRoll(final String diceRoll) {
         this.diceRoll = diceRoll;
     }
 

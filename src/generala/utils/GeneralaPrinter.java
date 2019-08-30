@@ -2,62 +2,64 @@ package generala.utils;
 
 import generala.enums.CombinationEnum;
 import generala.objects.Player;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Comparator;
 import java.util.List;
 
 //TODO:try to make it more abstract
 public final class GeneralaPrinter {
+    private static final Logger LOGGER = LogManager.getLogger(GeneralaPrinter.class);
 
-    public void printRoundSeparator(int currentRound) {
-        System.out.println("<-------------------------------------------------->");
-        System.out.println();
-        System.out.println(">>>Round " + currentRound);
-        System.out.println();
+
+    public void printRoundSeparator(final int currentRound) {
+        LOGGER.info("<-------------------------------------------------->");
+        LOGGER.info(">>>Round " + currentRound + System.lineSeparator());
     }
 
-    public void printGeneralaWin(Player player, List<Player> playerList) {
+    public void printGeneralaWin(final Player player, final List<Player> playerList) {
         playerList.remove(player);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println("WINNER IS ");
-        System.out.println("GENERALA!!!! " + player.getName() + " GENERALA!!!!");
-        System.out.println("WITH SCORE OF: " + player.getScore());
-        System.out.println("CONGRATS");
-        System.out.println();
+        LOGGER.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        LOGGER.info("WINNER IS ");
+        LOGGER.info("GENERALA!!!! " + player.getName() + " GENERALA!!!!");
+        LOGGER.info("WITH SCORE OF: " + player.getScore());
+        LOGGER.info("CONGRATS" + System.lineSeparator());
         printNormalWin(playerList, true);
     }
 
-    public void printNormalWin(List<Player> playerList, boolean hasGenerala) {
+    public void printNormalWin(final List<Player> playerList, final boolean hasGenerala) {
         playerList.sort(Comparator.comparing(Player::getScore).reversed());
         Player lastPlayer = playerList.get(0);
-        System.out.println();
-        System.out.println("<-------------------------------------------------------->");
-        System.out.println();
-        System.out.println("FINAL SCORES");
+        LOGGER.info("<-------------------------------------------------------->");
+        LOGGER.info("FINAL SCORES" + System.lineSeparator());
         for (int i = 0, positionCounter = hasGenerala ? 2 : 1; i < playerList.size(); i++) {
             Player player = playerList.get(i);
             if (lastPlayer.getScore() != player.getScore()) {
                 positionCounter++;
             }
-            System.out.println(positionCounter + ". " + player.getName() + " Score: " + player.getScore());
+            LOGGER.info(positionCounter + ". " + player.getName() + " Score: " + player.getScore());
             lastPlayer = player;
         }
     }
 
-    public void printRound(Player player, int oldScore, CombinationEnum currentCombo) {
-        System.out.println(">" + player.getName());
-        System.out.println("Current Score: " + oldScore);
-        System.out.print(player.getDiceRoll().toString());
+    public void printRound(final Player player, final int oldScore, final CombinationEnum currentCombo) {
+        LOGGER.info(">" + player.getName());
+        LOGGER.info("Current Score: " + oldScore);
         //TODO:REMOVE
-        System.out.println(player.getDiceRoll().getEachSideDuplicatesTreeMapReversed());
+        LOGGER.info(player.getDiceRoll().getEachSideDuplicatesTreeMapReversed());
 
-        System.out.print(currentCombo == null
-                ? " -> No Combos"
-                : " -> " + currentCombo.getLabel() + " ( " + (player.getScore() - oldScore) + " )");
-        System.out.println();
-        System.out.println("New Score: " + player.getScore());
-        System.out.println();
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-        System.out.println();
+        LOGGER.info(player.getDiceRoll().toString() +
+                (currentCombo == null
+                        ? " -> No Combos"
+                        : " -> " + currentCombo.getLabel() + " ( " + (player.getScore() - oldScore) + " )"));
+        LOGGER.info("New Score: " + player.getScore());
+        LOGGER.info("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" + System.lineSeparator());
+
+    }
+
+    public void printNewGame() {
+        LOGGER.info("NEW GAME");
+
     }
 }

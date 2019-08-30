@@ -2,13 +2,11 @@ package generala.application;
 
 import generala.objects.Generala;
 
-public class Main {
-
-    public static void main(String[] args) {
+public class Application {
+    public static void main(final String[] args) {
         Generala ganerala = new Generala();
         ganerala.playGenerala();
         //CombinationFinder combinationFinder=new CombinationFinder();
-
        /* ganerala.loadPropertiesFile();
         DiceRoll diceRoll=new DiceRoll();
         Player player=new Player("lol");
@@ -19,6 +17,5 @@ public class Main {
         diceRoll.getEachSideDuplicatesTreeMapReversed().put(2,1);
         player.setDiceRoll(diceRoll);
         combinationFinder.findCombinationsInPlayerDiceRoll(player);*/
-
     }
 }
