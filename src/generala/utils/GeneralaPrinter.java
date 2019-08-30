@@ -18,7 +18,7 @@ public final class GeneralaPrinter {
         LOGGER.info(">>>Round " + currentRound + System.lineSeparator());
     }
 
-    public void printGeneralaWin(final Player player,final  List<Player> playerList) {
+    public void printGeneralaWin(final Player player, final List<Player> playerList) {
         playerList.remove(player);
         LOGGER.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         LOGGER.info("WINNER IS ");
@@ -43,7 +43,7 @@ public final class GeneralaPrinter {
         }
     }
 
-    public void printRound(final Player player, final int oldScore,final  CombinationEnum currentCombo) {
+    public void printRound(final Player player, final int oldScore, final CombinationEnum currentCombo) {
         LOGGER.info(">" + player.getName());
         LOGGER.info("Current Score: " + oldScore);
         //TODO:REMOVE
