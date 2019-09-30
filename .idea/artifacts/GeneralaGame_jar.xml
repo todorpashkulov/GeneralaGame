@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="GeneralaGame:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/GeneralaGame_jar</output-path>
-    <root id="archive" name="GaneralaGame.jar">
-      <element id="module-output" name="GeneralaGame" />
-    </root>
-  </artifact>
-</component>
