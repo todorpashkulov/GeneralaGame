@@ -23,6 +23,7 @@
 hs_err_pid*
 
 #Idea workspace file
+.idea/workspace.xml
 .idea/
 target/
 
