@@ -17,6 +17,10 @@ public class Player {
     public Player() {
     }
 
+    public Player(CombinationFinder combinationFinder) {
+        this.combinationFinder = combinationFinder;
+    }
+
     public Player(final String name) {
         this.name = name;
     }
@@ -27,6 +31,10 @@ public class Player {
 
     public int getScore() {
         return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public String getName() {
@@ -42,7 +50,9 @@ public class Player {
     }
 
     public CombinationEnum addScore() {
-        Map<CombinationEnum, Integer> combinationTreeMap = combinationFinder.findCombinationsInPlayerDiceRoll(this);
+        //mock this
+
+        Map<CombinationEnum, Integer> combinationTreeMap = combinationFinder.findCombinations(this);
         CombinationEnum biggestCombination = null;
         int biggestCombinationValue = 0;
         //todo:Remove(only for Test)

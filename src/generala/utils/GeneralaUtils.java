@@ -13,9 +13,9 @@ public final class GeneralaUtils {
     private GeneralaUtils() {
     }
 
-    public static void generateRandomDiceRoll(Player player) {
+    private static void generateRandomDiceRoll(Player player) {
         DiceRoll diceRoll = player.getDiceRoll();
-        diceRoll.getEachSideDuplicatesTreeMapReversed().clear();
+        diceRoll.getEachSideDuplicatesTreeMap().clear();
         int numberOfDice = DiceRoll.getDiceCount();
         int numberOfDiceSides = DiceRoll.getDiceSidesCount();
         StringBuilder diceRollString = new StringBuilder(numberOfDice);
@@ -53,7 +53,7 @@ public final class GeneralaUtils {
     }
 
     private static void addCurrentSideToDiceRoll(DiceRoll diceRoll, int value) {
-        Map<Integer, Integer> dieSideDuplicatesMap = diceRoll.getEachSideDuplicatesTreeMapReversed();
+        Map<Integer, Integer> dieSideDuplicatesMap = diceRoll.getEachSideDuplicatesTreeMap();
         if (dieSideDuplicatesMap.containsKey(value)) {
             dieSideDuplicatesMap.put(value, dieSideDuplicatesMap.get(value) + 1);
         } else {

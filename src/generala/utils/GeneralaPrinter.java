@@ -47,7 +47,7 @@ public final class GeneralaPrinter {
         LOGGER.info(">" + player.getName());
         LOGGER.info("Current Score: " + oldScore);
         //TODO:REMOVE
-        LOGGER.info(player.getDiceRoll().getEachSideDuplicatesTreeMapReversed());
+        LOGGER.debug(player.getDiceRoll().getEachSideDuplicatesTreeMap());
 
         LOGGER.info(player.getDiceRoll().toString() +
                 (currentCombo == null

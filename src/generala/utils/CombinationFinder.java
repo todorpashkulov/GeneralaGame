@@ -8,7 +8,7 @@ import java.util.*;
 
 import static generala.constants.GeneralaConstants.*;
 
-public final class CombinationFinder {
+public class CombinationFinder {
 
     private int sideForCalculatingStraightPoints;
     private int biggestFourOfAKind;
@@ -16,11 +16,48 @@ public final class CombinationFinder {
     private int biggestPair;
     private int secondBiggestPair;
 
+    //GETTERS & SETTERS
+    public int getSideForCalculatingStraightPoints() {
+        return sideForCalculatingStraightPoints;
+    }
+
+    public int getBiggestFourOfAKind() {
+        return biggestFourOfAKind;
+    }
+
+    private void setBiggestFourOfAKind(final int biggestFourOfAKind) {
+        this.biggestFourOfAKind = biggestFourOfAKind;
+    }
+
+    public int getBiggestTriple() {
+        return biggestTriple;
+    }
+
+    private void setBiggestTriple(final int biggestTriple) {
+        this.biggestTriple = biggestTriple;
+    }
+
+    public int getBiggestPair() {
+        return biggestPair;
+    }
+
+    private void setBiggestPair(final int biggestPair) {
+        this.biggestPair = biggestPair;
+    }
+
+    public int getSecondBiggestPair() {
+        return secondBiggestPair;
+    }
+
+    private void setSecondBiggestPair(final int secondBiggestPair) {
+        this.secondBiggestPair = secondBiggestPair;
+    }
+
     //PUBLIC METHODS
-    public Map<CombinationEnum, Integer> findCombinationsInPlayerDiceRoll(final Player player) {
+    public Map<CombinationEnum, Integer> findCombinations(final Player player) {
         Map<CombinationEnum, Integer> combinationTreeMapReversed = new TreeMap<>(Collections.reverseOrder());
         for (Map.Entry<Integer, Integer> currentSideEntrySet : player.getDiceRoll()
-                .getEachSideDuplicatesTreeMapReversed()
+                .getEachSideDuplicatesTreeMap()
                 .entrySet()) {
             int currentSideKey = currentSideEntrySet.getKey();
             int currentSideValue = currentSideEntrySet.getValue();
@@ -77,7 +114,7 @@ public final class CombinationFinder {
         if (hasBiggestTriple() && hasBiggestPair()) {
             addFullHouse(playerRolledCombinations, combinationTreeMap);
         }
-        if (hasStraight(player.getDiceRoll().getEachSideDuplicatesTreeMapReversed().keySet())) {
+        if (hasStraight(player.getDiceRoll().getEachSideDuplicatesTreeMap().keySet())) {
             addStraight(playerRolledCombinations, combinationTreeMap);
         }
         resetCombinationVariables();
@@ -219,22 +256,5 @@ public final class CombinationFinder {
 
     private boolean canStopCombinationSearch() {
         return biggestFourOfAKind != 0 && biggestTriple != 0 && biggestPair != 0 && secondBiggestPair != 0;
-    }
-
-    //SETTERS
-    private void setBiggestFourOfAKind(final int biggestFourOfAKind) {
-        this.biggestFourOfAKind = biggestFourOfAKind;
-    }
-
-    private void setBiggestTriple(final int biggestTriple) {
-        this.biggestTriple = biggestTriple;
-    }
-
-    private void setBiggestPair(final int biggestPair) {
-        this.biggestPair = biggestPair;
-    }
-
-    private void setSecondBiggestPair(final int secondBiggestPair) {
-        this.secondBiggestPair = secondBiggestPair;
     }
 }

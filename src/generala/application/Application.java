@@ -10,12 +10,12 @@ public class Application {
        /* ganerala.loadPropertiesFile();
         DiceRoll diceRoll=new DiceRoll();
         Player player=new Player("lol");
-        diceRoll.getEachSideDuplicatesTreeMapReversed().put(6,1);
-        diceRoll.getEachSideDuplicatesTreeMapReversed().put(5,1);
-        diceRoll.getEachSideDuplicatesTreeMapReversed().put(4,1);
-        diceRoll.getEachSideDuplicatesTreeMapReversed().put(3,1);
-        diceRoll.getEachSideDuplicatesTreeMapReversed().put(2,1);
+        diceRoll.getEachSideDuplicatesTreeMap().put(6,1);
+        diceRoll.getEachSideDuplicatesTreeMap().put(5,1);
+        diceRoll.getEachSideDuplicatesTreeMap().put(4,1);
+        diceRoll.getEachSideDuplicatesTreeMap().put(3,1);
+        diceRoll.getEachSideDuplicatesTreeMap().put(2,1);
         player.setDiceRoll(diceRoll);
-        combinationFinder.findCombinationsInPlayerDiceRoll(player);*/
+        combinationFinder.findCombinations(player);*/
     }
 }

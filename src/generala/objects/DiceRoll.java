@@ -14,6 +14,7 @@ public class DiceRoll {
     public DiceRoll() {
     }
 
+
     public static int getDiceCount() {
         return diceCount;
     }
@@ -34,7 +35,7 @@ public class DiceRoll {
         this.diceRoll = diceRoll;
     }
 
-    public Map<Integer, Integer> getEachSideDuplicatesTreeMapReversed() {
+    public Map<Integer, Integer> getEachSideDuplicatesTreeMap() {
         return eachSideDuplicatesTreeMapReversed;
     }
 
