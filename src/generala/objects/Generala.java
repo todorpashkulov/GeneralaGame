@@ -31,7 +31,7 @@ public final class Generala {
         int oldPlayerScore;
         generalaPrinter.printNewGame();
         for (int i = 0; i < roundCount; i++) {
-            GeneralaUtils.generateRandomDiceRollForEachPlayer(players);
+            GeneralaUtils.generateRandomDiceRolls(players);
             generalaPrinter.printRoundSeparator(i + 1);
             for (Player p : players) {
                 oldPlayerScore = p.getScore();

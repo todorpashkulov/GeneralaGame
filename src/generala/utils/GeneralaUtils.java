@@ -23,7 +23,7 @@ public final class GeneralaUtils {
         return players;
     }
 
-    public static void generateRandomDiceRollForEachPlayer(List<Player> players) {
+    public static void generateRandomDiceRolls(List<Player> players) {
         for (Player p : players) {
             generateRandomDiceRoll(p);
         }
@@ -36,7 +36,6 @@ public final class GeneralaUtils {
         int numberOfDiceSides = DiceRoll.getDiceSidesCount();
         StringBuilder diceRollString = new StringBuilder(numberOfDice);
         int tempRandomNum;
-
         for (int i = 0; i < numberOfDice; i++) {
             if (i > 0) {
                 diceRollString.append(",");
@@ -46,9 +45,7 @@ public final class GeneralaUtils {
             diceRollString.append(tempRandomNum);
             //Filling DiceRoll EnumMap
             addCurrentSideToDiceRoll(diceRoll, tempRandomNum);
-
         }
-
         diceRoll.setDiceRoll(diceRollString.toString());
     }
 

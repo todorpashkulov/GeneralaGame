@@ -31,6 +31,10 @@ public class DiceRoll {
         DiceRoll.diceSidesCount = diceSidesCount;
     }
 
+    public String getDiceRoll() {
+        return diceRoll;
+    }
+
     public void setDiceRoll(final String diceRoll) {
         this.diceRoll = diceRoll;
     }
