@@ -14,7 +14,15 @@ public final class Generala {
 
     private static int playerCount;
     private static int roundCount;
-    private GeneralaPrinter generalaPrinter = new GeneralaPrinter();
+    private GeneralaPrinter generalaPrinter;
+
+    public Generala() {
+        generalaPrinter = new GeneralaPrinter();
+    }
+
+    public Generala(GeneralaPrinter generalaPrinter) {
+        this.generalaPrinter = generalaPrinter;
+    }
 
     public void playGenerala() {
         loadPropertiesFile();
@@ -36,7 +44,7 @@ public final class Generala {
                 }
             }
         }
-        generalaPrinter.printNormalWin(players, false);
+        generalaPrinter.printWin(players, false);
 
     }
 
@@ -45,10 +53,10 @@ public final class Generala {
         try (InputStream input = Application.class.getClassLoader().getResourceAsStream("generala.properties")) {
             Properties properties = new Properties();
             properties.load(input);
-            playerCount = Integer.valueOf(properties.getProperty("players"));
-            roundCount = Integer.valueOf(properties.getProperty("rounds"));
-            DiceRoll.setDiceCount(Integer.valueOf(properties.getProperty("dice")));
-            DiceRoll.setDiceSidesCount(Integer.valueOf(properties.getProperty("diceSides")));
+            playerCount = Integer.parseInt(properties.getProperty("players"));
+            roundCount = Integer.parseInt(properties.getProperty("rounds"));
+            DiceRoll.setDiceCount(Integer.parseInt(properties.getProperty("dice")));
+            DiceRoll.setDiceSidesCount(Integer.parseInt(properties.getProperty("diceSides")));
         } catch (IOException e) {
             e.printStackTrace();
         }

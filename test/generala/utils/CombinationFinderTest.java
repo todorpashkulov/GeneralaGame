@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class CombinationFinderTest {
-    private static int DiceCountPreviousValue = DiceRoll.getDiceCount();
+    private static int diceCountPreviousValue = DiceRoll.getDiceCount();
     private CombinationFinder combinationFinder = new CombinationFinder();
     private Player player = new Player();
     private DiceRoll diceRoll = new DiceRoll();
@@ -20,7 +20,7 @@ class CombinationFinderTest {
 
     @AfterAll
     static void cleanUp() {
-        DiceRoll.setDiceCount(DiceCountPreviousValue);
+        DiceRoll.setDiceCount(diceCountPreviousValue);
     }
 
     @Nested

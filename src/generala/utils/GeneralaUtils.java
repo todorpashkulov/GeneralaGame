@@ -13,6 +13,22 @@ public final class GeneralaUtils {
     private GeneralaUtils() {
     }
 
+    public static List<Player> generatePlayerList(int playerCount) {
+        List<Player> players = new ArrayList<>();
+
+        for (int i = 0; i < playerCount; i++) {
+            players.add(new Player("Player " + (i + 1)));
+        }
+
+        return players;
+    }
+
+    public static void generateRandomDiceRollForEachPlayer(List<Player> players) {
+        for (Player p : players) {
+            generateRandomDiceRoll(p);
+        }
+    }
+
     private static void generateRandomDiceRoll(Player player) {
         DiceRoll diceRoll = player.getDiceRoll();
         diceRoll.getEachSideDuplicatesTreeMap().clear();
@@ -36,22 +52,6 @@ public final class GeneralaUtils {
         diceRoll.setDiceRoll(diceRollString.toString());
     }
 
-    public static List<Player> generatePlayerList(int playerCount) {
-        List<Player> players = new ArrayList<>();
-
-        for (int i = 0; i < playerCount; i++) {
-            players.add(new Player("Player " + (i + 1)));
-        }
-
-        return players;
-    }
-
-    public static void generateRandomDiceRollForEachPlayer(List<Player> players) {
-        for (Player p : players) {
-            generateRandomDiceRoll(p);
-        }
-    }
-
     private static void addCurrentSideToDiceRoll(DiceRoll diceRoll, int value) {
         Map<Integer, Integer> dieSideDuplicatesMap = diceRoll.getEachSideDuplicatesTreeMap();
         if (dieSideDuplicatesMap.containsKey(value)) {
@@ -60,6 +60,5 @@ public final class GeneralaUtils {
             dieSideDuplicatesMap.put(value, 1);
         }
     }
-
 }
 

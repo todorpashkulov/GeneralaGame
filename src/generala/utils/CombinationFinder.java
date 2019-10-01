@@ -249,12 +249,20 @@ public class CombinationFinder {
     }
 
     private boolean canStopFindCombinations(final int playerRolledCombinationCount, final int combinationTreeMapSize) {
-        return combinationTreeMapSize == (CombinationEnum.values().length - 1) ||
-                playerRolledCombinationCount == CombinationEnum.values().length - 1 ||
-                canStopCombinationSearch();
+        return isCombinationTreeMapFull(combinationTreeMapSize) ||
+                hasPlayerRolledAllCombinations(playerRolledCombinationCount) ||
+                hasFoundAllNonCompoundCombinations();
     }
 
-    private boolean canStopCombinationSearch() {
+    private boolean isCombinationTreeMapFull(final int combinationTreeMapSize) {
+        return combinationTreeMapSize == (CombinationEnum.values().length - 1);
+    }
+
+    private boolean hasPlayerRolledAllCombinations(final int playerRolledCombinationCount) {
+        return playerRolledCombinationCount == CombinationEnum.values().length - 1;
+    }
+
+    private boolean hasFoundAllNonCompoundCombinations() {
         return biggestFourOfAKind != 0 && biggestTriple != 0 && biggestPair != 0 && secondBiggestPair != 0;
     }
 }

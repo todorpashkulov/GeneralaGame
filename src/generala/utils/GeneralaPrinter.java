@@ -25,10 +25,10 @@ public final class GeneralaPrinter {
         LOGGER.info("GENERALA!!!! " + player.getName() + " GENERALA!!!!");
         LOGGER.info("WITH SCORE OF: " + player.getScore());
         LOGGER.info("CONGRATS" + System.lineSeparator());
-        printNormalWin(playerList, true);
+        printWin(playerList, true);
     }
 
-    public void printNormalWin(final List<Player> playerList, final boolean hasGenerala) {
+    public void printWin(final List<Player> playerList, final boolean hasGenerala) {
         playerList.sort(Comparator.comparing(Player::getScore).reversed());
         Player lastPlayer = playerList.get(0);
         LOGGER.info("<-------------------------------------------------------->");
